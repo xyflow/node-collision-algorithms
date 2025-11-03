@@ -1,0 +1,25 @@
+import type { Node } from '@xyflow/svelte';
+import { naive } from './naive';
+import { rbush } from './rbush';
+import { flatbush } from './flatbush';
+import { naiveOptimized } from './naiveOptimized';
+import { rbushReplace } from './rbushReplace';
+
+export type CollisionAlgorithmOptions = {
+	iterations: number;
+	overlapThreshold: number;
+	margin: number;
+};
+
+export type CollisionAlgorithm = (
+	nodes: Node[],
+	options: CollisionAlgorithmOptions
+) => { newNodes: Node[]; numIterations: number };
+
+export const algorithms = {
+	naive,
+	naiveOptimized,
+	rbush,
+	rbushReplace,
+	flatbush
+} as const;
