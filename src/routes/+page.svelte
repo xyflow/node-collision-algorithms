@@ -143,6 +143,7 @@
 			<Button
 				variant="ghost"
 				class="mt-5"
+				disabled={layoutDirectly}
 				onclick={() => {
 					nodes = [...getNodesFromDataset(selectedDataset as keyof typeof datasets)];
 				}}

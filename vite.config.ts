@@ -4,6 +4,15 @@ import { sveltekit } from '@sveltejs/kit/vite';
 
 export default defineConfig({
 	plugins: [tailwindcss(), sveltekit()],
+	server: {
+		fs: {
+			allow: ['..'] // Allow access to files outside of src (for wasm/pkg)
+		}
+	},
+	optimizeDeps: {
+		exclude: ['wasm'] // Don't pre-bundle WASM
+	},
+	assetsInclude: ['**/*.wasm'], // Ensure WASM files are served correctly
 	test: {
 		expect: { requireAssertions: true },
 		projects: [

@@ -4,6 +4,7 @@ import { rbush } from './rbush';
 import { flatbush } from './flatbush';
 import { naiveOptimized } from './naiveOptimized';
 import { rbushReplace } from './rbushReplace';
+import { naiveWasm } from './naiveWasm';
 
 export type CollisionAlgorithmOptions = {
 	iterations: number;
@@ -19,6 +20,7 @@ export type CollisionAlgorithm = (
 export const algorithms = {
 	naive,
 	naiveOptimized,
+	naiveWasm,
 	rbush,
 	rbushReplace,
 	flatbush

@@ -119,7 +119,7 @@ export const rbush: CollisionAlgorithm = (
 			}
 		}
 
-		numIterations = iter;
+		numIterations++;
 
 		// Early exit if no overlaps were found
 		if (!moved) {
