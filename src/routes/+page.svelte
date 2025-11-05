@@ -69,6 +69,76 @@
 	const nodeTypes = {
 		custom: CustomNode
 	};
+
+	// Copy-paste state
+	let copiedNodes = $state<Node[]>([]);
+
+	// Get selected nodes
+	const selectedNodes = $derived(nodes.filter((node) => node.selected));
+
+	// Copy selected nodes
+	function copySelectedNodes() {
+		if (selectedNodes.length === 0) return;
+		copiedNodes = selectedNodes.map((node) => ({ ...node }));
+	}
+
+	// Paste copied nodes
+	function pasteNodes() {
+		if (copiedNodes.length === 0) return;
+
+		// Calculate offset based on first copied node's position
+		const offsetX = 50;
+		const offsetY = 50;
+
+		// Create new nodes with new IDs and offset positions
+		const newNodes = copiedNodes.map((node) => ({
+			...node,
+			id: crypto.randomUUID(),
+			selected: true, // Select the newly pasted nodes
+			position: {
+				x: node.position.x + offsetX,
+				y: node.position.y + offsetY
+			}
+		}));
+
+		// Deselect all existing nodes first
+		const updatedNodes = nodes.map((node) => ({ ...node, selected: false }));
+
+		// Add new nodes to the existing nodes array
+		nodes = [...updatedNodes, ...newNodes];
+	}
+
+	// Handle keyboard shortcuts
+	function handleKeyDown(event: KeyboardEvent) {
+		const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+		const modKey = isMac ? event.metaKey : event.ctrlKey;
+
+		// Check if we're in a text input or textarea to avoid interfering with normal text copy/paste
+		const target = event.target as HTMLElement;
+		if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) {
+			return;
+		}
+
+		if (modKey && event.key === 'c') {
+			// Get current selected nodes at the time of the event
+			const currentlySelected = nodes.filter((node) => node.selected);
+			if (currentlySelected.length > 0) {
+				event.preventDefault();
+				copiedNodes = currentlySelected.map((node) => ({ ...node }));
+			}
+		} else if (modKey && event.key === 'v' && copiedNodes.length > 0) {
+			event.preventDefault();
+			pasteNodes();
+		}
+	}
+
+	// Set up global keyboard listener
+	$effect(() => {
+		window.addEventListener('keydown', handleKeyDown);
+		return () => {
+			window.removeEventListener('keydown', handleKeyDown);
+		};
+	});
 </script>
 
 <div class="h-screen w-full">

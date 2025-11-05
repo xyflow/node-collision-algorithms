@@ -23,18 +23,25 @@ beforeAll(async () => {
 });
 
 const options = { iterations: Infinity, overlapThreshold: 0.5, margin: 0 };
+
+const baseBenchOptions = { iterations: 100, warmupIterations: 10 };
 // Create benchmarks for each dataset, comparing all algorithms
 Object.keys(datasets).forEach((datasetKey) => {
 	const dataset = datasetKey as keyof typeof datasets;
 	const nodes = getNodesFromDataset(dataset);
 
-	describe(dataset, () => {
+	const benchOptions = {
+		...baseBenchOptions,
+		iterations: nodes.length > 100 ? 25 : baseBenchOptions.iterations
+	};
+
+	describe.concurrent(dataset, () => {
 		bench(
 			'naive',
 			() => {
 				naive(nodes, options);
 			},
-			{ iterations: 1000, warmupIterations: 50 }
+			benchOptions
 		);
 
 		bench(
@@ -42,7 +49,7 @@ Object.keys(datasets).forEach((datasetKey) => {
 			() => {
 				rbush(nodes, options);
 			},
-			{ iterations: 1000, warmupIterations: 50 }
+			benchOptions
 		);
 
 		bench(
@@ -50,7 +57,7 @@ Object.keys(datasets).forEach((datasetKey) => {
 			() => {
 				rbushReplace(nodes, options);
 			},
-			{ iterations: 1000, warmupIterations: 50 }
+			benchOptions
 		);
 
 		bench(
@@ -58,7 +65,7 @@ Object.keys(datasets).forEach((datasetKey) => {
 			() => {
 				flatbush(nodes, options);
 			},
-			{ iterations: 1000, warmupIterations: 50 }
+			benchOptions
 		);
 
 		bench(
@@ -66,7 +73,7 @@ Object.keys(datasets).forEach((datasetKey) => {
 			() => {
 				naiveWasm(nodes, options);
 			},
-			{ iterations: 1000, warmupIterations: 50 }
+			benchOptions
 		);
 	});
 });

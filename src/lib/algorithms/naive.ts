@@ -10,9 +10,6 @@ type Box = {
 	node: Node;
 };
 
-/**
- * Converts nodes from nodeLookup to Box format for collision detection
- */
 function getBoxesFromNodes(nodes: Node[], margin: number = 0): Box[] {
 	const boxes: Box[] = new Array(nodes.length);
 
@@ -31,13 +28,6 @@ function getBoxesFromNodes(nodes: Node[], margin: number = 0): Box[] {
 	return boxes;
 }
 
-/**
- * Resolves overlaps between nodes using iterative separation
- * @param boxes Array of boxes with id, x, y, width, height
- * @param iterations Maximum number of iterations to run
- * @param overlapThreshold Acceptable overlap threshold in pixels (default: 0.5px)
- * @returns New positions for each box
- */
 export const naive: CollisionAlgorithm = (
 	nodes,
 	{ iterations = 50, overlapThreshold = 0.5, margin = 0 }
