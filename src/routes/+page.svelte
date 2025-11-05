@@ -38,7 +38,11 @@
 
 	let measurements = $state<{ numIterations: number; time: number } | undefined>(undefined);
 
-	const selectedData = $derived([...getNodesFromDataset(selectedDataset as keyof typeof datasets)]);
+	const selectedData = $derived(
+		selectedDataset === 'Create New'
+			? []
+			: [...getNodesFromDataset(selectedDataset as keyof typeof datasets)]
+	);
 
 	$effect(() => {
 		algorithm;
@@ -52,7 +56,9 @@
 		if (layoutDirectly) {
 			resolveCollisions({ algorithm, nodes: selectedData, iterations: Infinity });
 		} else {
-			nodes = [...selectedData];
+			if (selectedDataset !== 'Create New') {
+				nodes = [...selectedData];
+			}
 		}
 	});
 
@@ -169,10 +175,10 @@
 			</div>
 			{#if measurements !== undefined}
 				<div
-					class="mt-5 flex w-18 flex-col bg-background px-1 text-right font-mono text-[0.7em] text-muted-foreground"
+					class="mt-5 flex w-20 flex-col bg-background px-1 text-right font-mono text-[0.7em] text-muted-foreground"
 				>
 					<p>{measurements.numIterations} iter</p>
-					<p>{measurements.time.toFixed(2)} ms</p>
+					<p>~{measurements.time.toFixed(2)} ms</p>
 				</div>
 			{/if}
 		</Panel>

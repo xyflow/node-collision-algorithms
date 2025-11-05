@@ -11,9 +11,9 @@ export const defaultSize = 50;
 
 export type SelectOptions = keyof typeof datasets | 'Create New';
 
-export const initialDataset = 'cascading few';
+export const initialDataset = 'cascading 15';
 export const datasets = {
-	'cascading few': [
+	'cascading 15': [
 		{ position: { x: 618, y: 442 } },
 		{ position: { x: 657.75, y: 482 } },
 		{ position: { x: 580.75, y: 403.5 } },
@@ -30,7 +30,7 @@ export const datasets = {
 		{ position: { x: 713.25, y: 513 } },
 		{ position: { x: 749.25, y: 499.5 } }
 	] satisfies PartialNode[],
-	'cascading many': [
+	'cascading 50': [
 		{ position: { x: 618, y: 442 } },
 		{ position: { x: 657.75, y: 482 } },
 		{ position: { x: 580.75, y: 403.5 } },
@@ -82,7 +82,7 @@ export const datasets = {
 		{ position: { x: 817.75, y: 334.25 } },
 		{ position: { x: 827.75, y: 387.25 } }
 	] satisfies PartialNode[],
-	'cascading many more': [
+	'cascading 100': [
 		{ position: { x: 618, y: 442 } },
 		{ position: { x: 657.75, y: 482 } },
 		{ position: { x: 580.75, y: 403.5 } },
@@ -184,7 +184,7 @@ export const datasets = {
 		{ position: { x: 842.2114674447633, y: 216.03620822971064 } },
 		{ position: { x: 916.5078144579971, y: 299.2271883360781 } }
 	] satisfies PartialNode[],
-	'separated few': [
+	'separated 15': [
 		{ position: { x: 342, y: 226 } },
 		{ position: { x: 444.75, y: 108 } },
 		{ position: { x: 261.75, y: 153.5 } },
@@ -201,7 +201,7 @@ export const datasets = {
 		{ position: { x: 213.65415280002276, y: 568.0711629943132 } },
 		{ position: { x: 504.35489328329334, y: 474.0209234261963 } }
 	] satisfies PartialNode[],
-	'separated many more': [
+	'separated 100': [
 		{ position: { x: 385, y: 291.25 } },
 		{ position: { x: 814.5, y: 367.25 } },
 		{ position: { x: 540.1555264527894, y: 635.2224462903073 } },

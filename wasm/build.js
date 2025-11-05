@@ -53,6 +53,7 @@ try {
 				shell: true
 			});
 		} catch (error) {
+			console.warn(error);
 			console.warn('⚠️  wasm-opt not found, skipping optimization');
 			console.warn(
 				'   Install with: brew install binaryen (macOS) or download from https://github.com/WebAssembly/binaryen/releases'
