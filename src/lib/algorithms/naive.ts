@@ -13,22 +13,19 @@ type Box = {
 /**
  * Converts nodes from nodeLookup to Box format for collision detection
  */
-function getBoxesFromNodes(nodes: Node[], margin: number = 0) {
-	const boxes: Map<string, Box> = new Map();
+function getBoxesFromNodes(nodes: Node[], margin: number = 0): Box[] {
+	const boxes: Box[] = new Array(nodes.length);
 
-	for (const node of nodes) {
-		// Use measured dimensions if available, otherwise use defaults
-		const width = node.width! + margin * 2;
-		const height = node.height! + margin * 2;
-
-		boxes.set(node.id, {
+	for (let i = 0; i < nodes.length; i++) {
+		const node = nodes[i];
+		boxes[i] = {
 			x: node.position.x - margin,
 			y: node.position.y - margin,
-			width,
-			height,
+			width: node.width! + margin * 2,
+			height: node.height! + margin * 2,
 			node,
 			moved: false
-		});
+		};
 	}
 
 	return boxes;
@@ -52,11 +49,10 @@ export const naive: CollisionAlgorithm = (
 	for (let iter = 0; iter <= iterations; iter++) {
 		let moved = false;
 
-		const boxesArr = Array.from(boxes.values());
-		for (let i = 0; i < boxesArr.length; i++) {
-			for (let j = i + 1; j < boxesArr.length; j++) {
-				const A = boxesArr[i];
-				const B = boxesArr[j];
+		for (let i = 0; i < boxes.length; i++) {
+			for (let j = i + 1; j < boxes.length; j++) {
+				const A = boxes[i];
+				const B = boxes[j];
 
 				// Calculate center positions
 				const centerAX = A.x + A.width * 0.5;
@@ -106,21 +102,18 @@ export const naive: CollisionAlgorithm = (
 		}
 	}
 
-	const newNodes = boxes
-		.values()
-		.map((box) => {
-			if (box.moved) {
-				return {
-					...box.node,
-					position: {
-						x: box.x + margin,
-						y: box.y + margin
-					}
-				};
-			}
-			return box.node;
-		})
-		.toArray();
+	const newNodes = boxes.map((box) => {
+		if (box.moved) {
+			return {
+				...box.node,
+				position: {
+					x: box.x + margin,
+					y: box.y + margin
+				}
+			};
+		}
+		return box.node;
+	});
 
 	return { newNodes, numIterations };
 };

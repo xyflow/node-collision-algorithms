@@ -2,7 +2,6 @@ import type { Node } from '@xyflow/svelte';
 import { naive } from './naive';
 import { rbush } from './rbush';
 import { flatbush } from './flatbush';
-import { naiveOptimized } from './naiveOptimized';
 import { rbushReplace } from './rbushReplace';
 import { naiveWasm } from './naiveWasm';
 
@@ -19,7 +18,6 @@ export type CollisionAlgorithm = (
 
 export const algorithms = {
 	naive,
-	naiveOptimized,
 	naiveWasm,
 	rbush,
 	rbushReplace,
