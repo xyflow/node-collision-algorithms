@@ -1,3 +1,5 @@
 {
-	"$schema": "https://openapi.vercel.sh/vercel.json"
+	"$schema": "https://openapi.vercel.sh/vercel.json",
+	"installCommand": "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain stable --no-modify-path && export PATH=\"$HOME/.cargo/bin:$PATH\" && pnpm install",
+	"buildCommand": ". /root/.cargo/env && pnpm run build"
 }
