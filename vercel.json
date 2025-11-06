@@ -1,5 +1,4 @@
 {
-	"build": {
-		"image": "vercel-rust"
-	}
+	"$schema": "https://openapi.vercel.sh/vercel.json",
+	"installCommand": "dnf install -y cargo"
 }
