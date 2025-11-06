@@ -1,4 +1,4 @@
 {
 	"$schema": "https://openapi.vercel.sh/vercel.json",
-	"installCommand": "dnf install -y rustup cargo"
+	"installCommand": "curl https://sh.rustup.rs -sSf | sh"
 }
