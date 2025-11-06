@@ -11,15 +11,50 @@ const wasmDir = __dirname;
 console.log('🔨 Building WASM module...\n');
 
 try {
+	// Step 0: Ensure Rust toolchain is set up
+	console.log('Step 0/4: Setting up Rust toolchain...');
+	try {
+		// Check if wasm32 target is installed
+		const installedTargets = execSync('rustup target list --installed', {
+			cwd: wasmDir,
+			stdio: 'pipe',
+			encoding: 'utf8'
+		});
+		if (!installedTargets.includes('wasm32-unknown-unknown')) {
+			throw new Error('Target not installed');
+		}
+	} catch {
+		// Target not installed, install it
+		console.log('Installing wasm32-unknown-unknown target...');
+		execSync('rustup target add wasm32-unknown-unknown', {
+			cwd: wasmDir,
+			stdio: 'inherit'
+		});
+	}
+
+	// Ensure wasm-bindgen-cli is installed
+	try {
+		execSync('wasm-bindgen --version', {
+			cwd: wasmDir,
+			stdio: 'pipe'
+		});
+	} catch {
+		console.log('Installing wasm-bindgen-cli...');
+		execSync('cargo install wasm-bindgen-cli', {
+			cwd: wasmDir,
+			stdio: 'inherit'
+		});
+	}
+
 	// Step 1: Build Rust to WASM
-	console.log('Step 1/3: Compiling Rust to WASM...');
+	console.log('\nStep 1/4: Compiling Rust to WASM...');
 	execSync('cargo build --target wasm32-unknown-unknown --release', {
 		cwd: wasmDir,
 		stdio: 'inherit'
 	});
 
 	// Step 2: Generate JS bindings with wasm-bindgen
-	console.log('\nStep 2/3: Generating JS bindings...');
+	console.log('\nStep 2/4: Generating JS bindings...');
 	const wasmFile = 'target/wasm32-unknown-unknown/release/wasm.wasm';
 
 	if (!existsSync(join(wasmDir, wasmFile))) {
@@ -40,7 +75,7 @@ try {
 	);
 
 	// Step 3: Optimize with wasm-opt
-	console.log('\nStep 3/3: Optimizing WASM binary...');
+	console.log('\nStep 3/4: Optimizing WASM binary...');
 	const pkgWasm = 'pkg/wasm_bg.wasm';
 
 	if (!existsSync(join(wasmDir, pkgWasm))) {

@@ -1,0 +1,11 @@
+{
+	"buildCommand": "pnpm run build",
+	"installCommand": "pnpm install",
+	"framework": null,
+	"functions": {
+		"app/**": {
+			"runtime": "nodejs20.x"
+		}
+	}
+}
+
