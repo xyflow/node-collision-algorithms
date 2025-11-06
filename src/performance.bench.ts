@@ -12,6 +12,7 @@ import { initSync } from '../wasm/pkg/wasm';
  */
 import wasmUrl from '../wasm/pkg/wasm_bg.wasm?url';
 import { readFile } from 'node:fs/promises';
+import { geoIndexWasm } from '@/algorithms/geoIndex';
 
 beforeAll(async () => {
 	try {
@@ -72,6 +73,14 @@ Object.keys(datasets).forEach((datasetKey) => {
 			'naiveWasm',
 			() => {
 				naiveWasm(nodes, options);
+			},
+			benchOptions
+		);
+
+		bench(
+			'geoIndexWasm',
+			() => {
+				geoIndexWasm(nodes, options);
 			},
 			benchOptions
 		);

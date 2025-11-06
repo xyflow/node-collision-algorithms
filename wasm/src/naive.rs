@@ -1,11 +1,9 @@
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
-pub fn naive(xs: &mut [f64], ys: &mut [f64], widths: &mut [f64], heights: &mut [f64], moveds: &mut [u8], iterations: u32, overlap_threshold: f64) -> u32 {
+pub fn naive(xs: &mut [f64], ys: &mut [f64], widths: &mut [f64], heights: &mut [f64], moveds: &mut [u8], max_iterations: u32, overlap_threshold: f64) -> u32 {
         let len = xs.len();
         let mut num_iterations = 0;
-        let max_iterations = iterations;
-        let is_infinite = iterations == u32::MAX;
 
         loop {
             let mut moved = false;
@@ -63,7 +61,7 @@ pub fn naive(xs: &mut [f64], ys: &mut [f64], widths: &mut [f64], heights: &mut [
             }
 
             // Check if we've reached the maximum iterations (unless infinite)
-            if !is_infinite && num_iterations >= max_iterations {
+            if num_iterations >= max_iterations {
                 break;
             }
         }

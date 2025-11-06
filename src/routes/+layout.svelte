@@ -3,7 +3,7 @@
 	import favicon from '$lib/assets/favicon.svg';
 	import { SvelteFlowProvider } from '@xyflow/svelte';
 	import { onMount } from 'svelte';
-	import { initWasm } from '@/algorithms/naiveWasm';
+	import { initWasm } from '@/algorithms';
 
 	let { children } = $props();
 

@@ -11,7 +11,7 @@ function useCollisionLayout({
 	const resolveCollisions = ({
 		algorithm,
 		dryRun = false,
-		iterations = 10,
+		iterations = Infinity,
 		nodes: nodesToResolve
 	}: {
 		algorithm: CollisionAlgorithm;

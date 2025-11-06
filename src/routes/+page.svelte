@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { untrack } from 'svelte';
 	import {
 		Background,
 		Panel,
@@ -14,6 +15,7 @@
 	import { getRandomEmoji } from '@/emojis';
 	import useCollisionLayout from '@/hooks/useCollisionLayout.svelte';
 
+	import * as Tooltip from '@/components/ui/tooltip';
 	import { Button } from '@/components/ui/button';
 	import SelectDataset from '@/components/SelectDataset.svelte';
 
@@ -32,6 +34,9 @@
 	const { screenToFlowPosition } = useSvelteFlow();
 
 	let selectedDataset = $state.raw<SelectOptions>(initialDataset);
+	let isCreateNew = $derived(selectedDataset === 'Create New');
+	let previousDataset = $state<keyof typeof datasets>(initialDataset);
+
 	let selectedAlgorithm = $state<keyof typeof algorithms>('naive');
 	let algorithm = $derived(algorithms[selectedAlgorithm]);
 	let layoutDirectly = $state(false);
@@ -39,9 +44,7 @@
 	let measurements = $state<{ numIterations: number; time: number } | undefined>(undefined);
 
 	const selectedData = $derived(
-		selectedDataset === 'Create New'
-			? []
-			: [...getNodesFromDataset(selectedDataset as keyof typeof datasets)]
+		isCreateNew ? [] : [...getNodesFromDataset(selectedDataset as keyof typeof datasets)]
 	);
 
 	$effect(() => {
@@ -54,9 +57,13 @@
 
 	$effect(() => {
 		if (layoutDirectly) {
-			resolveCollisions({ algorithm, nodes: selectedData, iterations: Infinity });
+			resolveCollisions({
+				algorithm,
+				nodes: isCreateNew ? untrack(() => nodes) : selectedData,
+				iterations: Infinity
+			});
 		} else {
-			if (selectedDataset !== 'Create New') {
+			if (!isCreateNew) {
 				nodes = [...selectedData];
 			}
 		}
@@ -72,15 +79,6 @@
 
 	// Copy-paste state
 	let copiedNodes = $state<Node[]>([]);
-
-	// Get selected nodes
-	const selectedNodes = $derived(nodes.filter((node) => node.selected));
-
-	// Copy selected nodes
-	function copySelectedNodes() {
-		if (selectedNodes.length === 0) return;
-		copiedNodes = selectedNodes.map((node) => ({ ...node }));
-	}
 
 	// Paste copied nodes
 	function pasteNodes() {
@@ -153,8 +151,8 @@
 		}}
 		{nodeTypes}
 		onnodedragstop={() => {
-			if (selectedDataset !== 'Create New') {
-				resolveCollisions({ algorithm });
+			if (selectedDataset !== 'Create New' && layoutDirectly) {
+				measurements = resolveCollisions({ algorithm });
 			}
 		}}
 		onpaneclick={({ event }) => {
@@ -178,63 +176,93 @@
 		}}
 	>
 		<Panel position="bottom-right" class="flex gap-2">
-			{#if selectedDataset !== 'Create New'}
-				<Button
-					variant="ghost"
-					class="mt-5"
-					onclick={() => {
-						nodes = [...getNodesFromDataset(selectedDataset as keyof typeof datasets)];
-						selectedDataset = 'Create New';
-					}}
-				>
-					<EditIcon />
-				</Button>
-			{:else}
-				<Button
-					variant="ghost"
-					class="mt-5"
-					onclick={() => {
-						navigator.clipboard.writeText(
-							JSON.stringify(
-								nodes.map((node) => ({
-									position: node.position,
-									width: node.width === 50 ? undefined : node.width,
-									height: node.height === 50 ? undefined : node.height
-								}))
-							)
-						);
-					}}
-				>
-					<CopyIcon />
-				</Button>
+			{#if !import.meta.env.DEV}
+				{#if selectedDataset !== 'Create New'}
+					<Button
+						variant="ghost"
+						class="mt-5"
+						onclick={() => {
+							nodes = [...getNodesFromDataset(selectedDataset as keyof typeof datasets)];
+							selectedDataset = 'Create New';
+						}}
+					>
+						<EditIcon />
+					</Button>
+				{:else}
+					<Button
+						variant="ghost"
+						class="mt-5"
+						onclick={() => {
+							navigator.clipboard.writeText(
+								JSON.stringify(
+									nodes.map((node) => ({
+										position: node.position,
+										width: node.width === 50 ? undefined : node.width,
+										height: node.height === 50 ? undefined : node.height
+									}))
+								)
+							);
+						}}
+					>
+						<CopyIcon />
+					</Button>
+				{/if}
 			{/if}
-			<Button
-				variant="ghost"
-				class="mt-5"
-				disabled={layoutDirectly}
-				onclick={() => resolveCollisions({ algorithm })}
-			>
-				<SortIcon />
-			</Button>
-			<Button
-				variant="ghost"
-				class="mt-5"
-				disabled={layoutDirectly}
-				onclick={() => {
-					nodes = [...getNodesFromDataset(selectedDataset as keyof typeof datasets)];
-				}}
-			>
-				<ReloadIcon />
-			</Button>
-			<Button
-				variant={layoutDirectly ? 'default' : 'ghost'}
-				class="mt-5"
-				onclick={() => {
-					layoutDirectly = !layoutDirectly;
-				}}
-			>
-				<LightningBoltIcon />
-			</Button>
+
+			<Tooltip.Provider>
+				<Tooltip.Root delayDuration={0}>
+					<Tooltip.Trigger class="mt-5">
+						<Button
+							variant={layoutDirectly ? 'default' : 'ghost'}
+							onclick={() => {
+								layoutDirectly = !layoutDirectly;
+							}}
+						>
+							<LightningBoltIcon />
+						</Button>
+					</Tooltip.Trigger>
+					<Tooltip.Content>
+						<p>Toggle automatic layout</p>
+					</Tooltip.Content>
+				</Tooltip.Root>
+			</Tooltip.Provider>
+			<Tooltip.Provider>
+				<Tooltip.Root delayDuration={0}>
+					<Tooltip.Trigger class="mt-5">
+						<Button
+							variant="ghost"
+							disabled={layoutDirectly}
+							onclick={() => {
+								measurements = resolveCollisions({ algorithm });
+							}}
+						>
+							<SortIcon />
+						</Button>
+					</Tooltip.Trigger>
+					<Tooltip.Content>
+						<p>Run algorithm</p>
+					</Tooltip.Content>
+				</Tooltip.Root>
+			</Tooltip.Provider>
+			<Tooltip.Provider>
+				<Tooltip.Root delayDuration={0}>
+					<Tooltip.Trigger class="mt-5">
+						<Button
+							variant="ghost"
+							disabled={layoutDirectly}
+							onclick={() => {
+								nodes = [...getNodesFromDataset(selectedDataset as keyof typeof datasets)];
+							}}
+						>
+							<ReloadIcon />
+						</Button>
+					</Tooltip.Trigger>
+					<Tooltip.Content>
+						<p>Reload dataset</p>
+					</Tooltip.Content>
+				</Tooltip.Root>
+			</Tooltip.Provider>
+
 			<div>
 				<p class="mb-1 font-mono text-[0.7em] text-muted-foreground">algorithm</p>
 				<SelectAlgorithm bind:selectedAlgorithm />
@@ -245,7 +273,7 @@
 			</div>
 			{#if measurements !== undefined}
 				<div
-					class="mt-5 flex w-20 flex-col bg-background px-1 text-right font-mono text-[0.7em] text-muted-foreground"
+					class="mt-5 flex w-26 flex-col bg-background px-1 text-right font-mono text-[0.7em] text-muted-foreground"
 				>
 					<p>{measurements.numIterations} iter</p>
 					<p>~{measurements.time.toFixed(2)} ms</p>

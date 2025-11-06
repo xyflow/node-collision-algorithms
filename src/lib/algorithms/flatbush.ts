@@ -16,12 +16,15 @@ type Box = {
 	node: Node;
 };
 
-/**
- * Resolves overlaps between nodes using iterative separation with Flatbush spatial indexing
- * @param nodes Array of nodes to resolve collisions for
- * @param options Collision resolution options
- * @returns New positions for each node and number of iterations performed
- */
+function rebuildFlatbush(boxes: Box[]) {
+	const index = new Flatbush(boxes.length);
+	for (const box of boxes) {
+		index.add(box.minX, box.minY, box.maxX, box.maxY);
+	}
+	index.finish();
+	return index;
+}
+
 export const flatbush: CollisionAlgorithm = (
 	nodes,
 	{ iterations = 50, overlapThreshold = 0.5, margin = 0 }
@@ -55,13 +58,7 @@ export const flatbush: CollisionAlgorithm = (
 	}
 
 	let numIterations = 0;
-	let index = new Flatbush(boxes.length);
-
-	for (const box of boxes) {
-		index.add(box.minX, box.minY, box.maxX, box.maxY);
-	}
-
-	index.finish();
+	let index = rebuildFlatbush(boxes);
 
 	for (let iter = 0; iter <= iterations; iter++) {
 		let moved = false;
@@ -130,13 +127,8 @@ export const flatbush: CollisionAlgorithm = (
 		if (!moved) {
 			break;
 		}
-		index = new Flatbush(boxes.length);
 
-		for (const box of boxes) {
-			index.add(box.minX, box.minY, box.maxX, box.maxY);
-		}
-
-		index.finish();
+		index = rebuildFlatbush(boxes);
 	}
 
 	const newNodes = boxes.map((box) => {

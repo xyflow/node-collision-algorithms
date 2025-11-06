@@ -1,11 +1,11 @@
-import { naive } from '../../../wasm/pkg/wasm.js';
-import type { CollisionAlgorithm } from '.';
+import { geo_index } from '../../../wasm/pkg/wasm.js';
+import type { CollisionAlgorithm } from './index.js';
 
-export const naiveWasm: CollisionAlgorithm = (
+export const geoIndexWasm: CollisionAlgorithm = (
 	nodes,
 	{ iterations = 50, overlapThreshold = 0.5, margin = 0 }
 ) => {
-	// Convert nodes to flat arrays
+	// Convert nodes to flat arrays (Struct of Arrays layout)
 	const xs = new Float64Array(nodes.length);
 	const ys = new Float64Array(nodes.length);
 	const widths = new Float64Array(nodes.length);
@@ -24,7 +24,7 @@ export const naiveWasm: CollisionAlgorithm = (
 	// Convert Infinity to u32::MAX for Rust
 	const rustIterations = iterations === Infinity ? 0xffffffff : iterations;
 
-	const numIterations = naive(xs, ys, widths, heights, moved, rustIterations, overlapThreshold);
+	const numIterations = geo_index(xs, ys, widths, heights, moved, rustIterations, overlapThreshold);
 
 	// Convert back to nodes
 	const newNodes = nodes.map((node, i) => {
