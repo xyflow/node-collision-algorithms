@@ -35,13 +35,15 @@
 
 	let selectedDataset = $state.raw<SelectOptions>(initialDataset);
 	let isCreateNew = $derived(selectedDataset === 'Create New');
-	let previousDataset = $state<keyof typeof datasets>(initialDataset);
 
 	let selectedAlgorithm = $state<keyof typeof algorithms>('naive');
 	let algorithm = $derived(algorithms[selectedAlgorithm]);
 	let layoutDirectly = $state(false);
 
-	let measurements = $state<{ numIterations: number; time: number } | undefined>(undefined);
+	let measurements = $state<{ numIterations: number; time: number }>({
+		numIterations: NaN,
+		time: NaN
+	});
 
 	const selectedData = $derived(
 		isCreateNew ? [] : [...getNodesFromDataset(selectedDataset as keyof typeof datasets)]
@@ -271,14 +273,12 @@
 				<p class="mb-1 font-mono text-[0.7em] text-muted-foreground">dataset</p>
 				<SelectDataset bind:selectedDataset />
 			</div>
-			{#if measurements !== undefined}
-				<div
-					class="mt-5 flex w-26 flex-col bg-background px-1 text-right font-mono text-[0.7em] text-muted-foreground"
-				>
-					<p>{measurements.numIterations} iter</p>
-					<p>~{measurements.time.toFixed(2)} ms</p>
-				</div>
-			{/if}
+			<div
+				class="mt-5 flex w-26 flex-col bg-background px-1 text-right font-mono text-[0.7em] text-muted-foreground"
+			>
+				<p>{measurements.numIterations} iter</p>
+				<p>~{measurements.time.toFixed(2)} ms</p>
+			</div>
 		</Panel>
 		<Panel position="top-left"></Panel>
 		<Background />

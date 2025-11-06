@@ -9,6 +9,9 @@ export default defineConfig({
 			allow: ['..'] // Allow access to files outside of src (for wasm/pkg)
 		}
 	},
+	build: {
+		sourcemap: true
+	},
 	optimizeDeps: {
 		exclude: ['wasm'] // Don't pre-bundle WASM
 	},
