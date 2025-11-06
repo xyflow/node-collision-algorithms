@@ -1,4 +1,4 @@
 {
 	"$schema": "https://openapi.vercel.sh/vercel.json",
-	"installCommand": "curl -sSf https://sh.rustup.rs | sh -s -- -y && pnpm install"
+	"installCommand": "curl -sSf https://sh.rustup.rs | sh -s -- -y && . \"$HOME/.cargo/env\" &&pnpm install"
 }
