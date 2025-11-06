@@ -214,14 +214,17 @@
 			<Tooltip.Provider>
 				<Tooltip.Root delayDuration={0}>
 					<Tooltip.Trigger class="mt-5">
-						<Button
-							variant={layoutDirectly ? 'default' : 'ghost'}
-							onclick={() => {
-								layoutDirectly = !layoutDirectly;
-							}}
-						>
-							<LightningBoltIcon />
-						</Button>
+						{#snippet child({ props })}
+							<Button
+								{...props}
+								variant={layoutDirectly ? 'default' : 'ghost'}
+								onclick={() => {
+									layoutDirectly = !layoutDirectly;
+								}}
+							>
+								<LightningBoltIcon />
+							</Button>
+						{/snippet}
 					</Tooltip.Trigger>
 					<Tooltip.Content>
 						<p>Toggle automatic layout</p>
@@ -231,15 +234,18 @@
 			<Tooltip.Provider>
 				<Tooltip.Root delayDuration={0}>
 					<Tooltip.Trigger class="mt-5">
-						<Button
-							variant="ghost"
-							disabled={layoutDirectly}
-							onclick={() => {
-								measurements = resolveCollisions({ algorithm });
-							}}
-						>
-							<SortIcon />
-						</Button>
+						{#snippet child({ props })}
+							<Button
+								{...props}
+								variant="ghost"
+								disabled={layoutDirectly}
+								onclick={() => {
+									measurements = resolveCollisions({ algorithm });
+								}}
+							>
+								<SortIcon />
+							</Button>
+						{/snippet}
 					</Tooltip.Trigger>
 					<Tooltip.Content>
 						<p>Run algorithm</p>
@@ -249,15 +255,18 @@
 			<Tooltip.Provider>
 				<Tooltip.Root delayDuration={0}>
 					<Tooltip.Trigger class="mt-5">
-						<Button
-							variant="ghost"
-							disabled={layoutDirectly}
-							onclick={() => {
-								nodes = [...getNodesFromDataset(selectedDataset as keyof typeof datasets)];
-							}}
-						>
-							<ReloadIcon />
-						</Button>
+						{#snippet child({ props })}
+							<Button
+								{...props}
+								variant="ghost"
+								disabled={layoutDirectly}
+								onclick={() => {
+									nodes = [...getNodesFromDataset(selectedDataset as keyof typeof datasets)];
+								}}
+							>
+								<ReloadIcon />
+							</Button>
+						{/snippet}
 					</Tooltip.Trigger>
 					<Tooltip.Content>
 						<p>Reload dataset</p>

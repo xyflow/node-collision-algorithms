@@ -1318,6 +1318,7 @@ export function getNodesFromDataset(dataset: keyof typeof datasets): Node[] {
 		data: {
 			label: getRandomEmoji()
 		},
-		type: 'custom'
+		type: 'custom',
+		handles: []
 	}));
 }
