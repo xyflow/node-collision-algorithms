@@ -176,7 +176,7 @@
 		}}
 	>
 		<Panel position="bottom-right" class="flex gap-2">
-			{#if !import.meta.env.DEV}
+			{#if import.meta.env.DEV}
 				{#if selectedDataset !== 'Create New'}
 					<Button
 						variant="ghost"
