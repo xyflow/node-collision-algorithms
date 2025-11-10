@@ -143,7 +143,15 @@
 
 <div class="h-screen w-full">
 	<Panel position="top-left" class="">
-		<span class="font-bold text-md">node collision algorithms</span> <span class="text-sm">by <a  class="text-[#FF4002]" href="https://xyflow.com" rel="noopener noreferrer" target="_blank">xyflow</a></span>
+		<span class="text-md font-bold">node collision algorithms</span>
+		<span class="text-sm"
+			>by <a
+				class="text-[#FF4002]"
+				href="https://xyflow.com"
+				rel="noopener noreferrer"
+				target="_blank">xyflow</a
+			></span
+		>
 	</Panel>
 	<SvelteFlow
 		bind:nodes
@@ -265,6 +273,7 @@
 								disabled={layoutDirectly}
 								onclick={() => {
 									nodes = [...getNodesFromDataset(selectedDataset as keyof typeof datasets)];
+									measurements = resolveCollisions({ dryRun: true, algorithm, nodes });
 								}}
 							>
 								<ReloadIcon />
@@ -296,4 +305,3 @@
 		<Background />
 	</SvelteFlow>
 </div>
-

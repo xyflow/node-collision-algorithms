@@ -57,7 +57,7 @@ export const quadtree: CollisionAlgorithm = (
 
 	for (let iter = 0; iter <= iterations; iter++) {
 		let moved = false;
-		//TODO: Use quadtree to find collisions
+
 		for (let i = 0; i < rects.length; i++) {
 			const A = rects[i];
 			const candidates = quadtree.retrieve(A) as Rect[];
@@ -82,7 +82,6 @@ export const quadtree: CollisionAlgorithm = (
 				// Check if there's significant overlap
 				if (px > overlapThreshold && py > overlapThreshold) {
 					A.data!.moved = B.data!.moved = moved = true;
-					// TODO: also update quadtreeSize when moving nodes
 
 					// Resolve along the smallest overlap axis
 					if (px < py) {
