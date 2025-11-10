@@ -88,9 +88,7 @@ export const rbushReplace: CollisionAlgorithm = (
 
 				// Check if there's significant overlap
 				if (px > overlapThreshold && py > overlapThreshold) {
-					moved = true;
-					A.moved = true;
-					B.moved = true;
+					A.moved = B.moved = moved = true;
 
 					// Resolve along the smallest overlap axis
 					if (px < py) {

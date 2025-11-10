@@ -7,6 +7,7 @@ import { flatbush } from './flatbush';
 import { rbushReplace } from './rbushReplace';
 import { naiveWasm } from './naiveWasm';
 import { geoIndexWasm } from './geoIndex';
+import { quadtree } from './quadtree.js';
 
 export type CollisionAlgorithmOptions = {
 	iterations: number;
@@ -25,7 +26,8 @@ export const algorithms = {
 	geoIndexWasm,
 	rbush,
 	rbushReplace,
-	flatbush
+	flatbush,
+	quadtree
 } as const;
 
 export async function initWasm() {

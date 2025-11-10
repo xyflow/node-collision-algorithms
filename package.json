@@ -52,6 +52,7 @@
 		"vitest": "^3.2.4"
 	},
 	"dependencies": {
+		"@timohausmann/quadtree-ts": "^2.3.0",
 		"@types/rbush": "^4.0.0",
 		"@xyflow/svelte": "^1.4.1",
 		"flatbush": "^4.5.0",

@@ -60,26 +60,20 @@ export const naive: CollisionAlgorithm = (
 
 				// Check if there's significant overlap
 				if (px > overlapThreshold && py > overlapThreshold) {
-					moved = true;
-
+					A.moved = B.moved = moved = true;
 					// Resolve along the smallest overlap axis
 					if (px < py) {
 						// Move along x-axis
 						const sx = dx > 0 ? 1 : -1;
-						const moveAmount = px / 2;
-
-						A.x += moveAmount * sx;
-						B.x -= moveAmount * sx;
-						A.moved = true;
-						B.moved = true;
+						const moveAmount = (px / 2) * sx;
+						A.x += moveAmount;
+						B.x -= moveAmount;
 					} else {
 						// Move along y-axis
 						const sy = dy > 0 ? 1 : -1;
-						const moveAmount = py / 2;
-						A.y += moveAmount * sy;
-						B.y -= moveAmount * sy;
-						A.moved = true;
-						B.moved = true;
+						const moveAmount = (py / 2) * sy;
+						A.y += moveAmount;
+						B.y -= moveAmount;
 					}
 				}
 			}

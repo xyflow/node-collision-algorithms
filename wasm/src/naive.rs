@@ -35,17 +35,17 @@ pub fn naive(xs: &mut [f64], ys: &mut [f64], widths: &mut [f64], heights: &mut [
                         if px < py {
                             // Move along x-axis
                             let sx = if dx > 0.0 { 1.0 } else { -1.0 };
-                            let move_amount = px * 0.5;
+                            let move_amount = px * 0.5 * sx;
 
-                            xs[i] += move_amount * sx;
-                            xs[j] -= move_amount * sx;
+                            xs[i] += move_amount;
+                            xs[j] -= move_amount;
                         } else {
                             // Move along y-axis
                             let sy = if dy > 0.0 { 1.0 } else { -1.0 };
-                            let move_amount = py * 0.5;
+                            let move_amount = py * 0.5 * sy;
 
-                            ys[i] += move_amount * sy;
-                            ys[j] -= move_amount * sy;
+                            ys[i] += move_amount;
+                            ys[j] -= move_amount;
                         }
                     }
                 }

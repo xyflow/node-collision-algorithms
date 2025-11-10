@@ -13,6 +13,7 @@ import { initSync } from '../wasm/pkg/wasm';
 import wasmUrl from '../wasm/pkg/wasm_bg.wasm?url';
 import { readFile } from 'node:fs/promises';
 import { geoIndexWasm } from '@/algorithms/geoIndex';
+import { quadtree } from '@/algorithms/quadtree';
 
 beforeAll(async () => {
 	try {
@@ -81,6 +82,14 @@ Object.keys(datasets).forEach((datasetKey) => {
 			'geoIndexWasm',
 			() => {
 				geoIndexWasm(nodes, options);
+			},
+			benchOptions
+		);
+
+		bench(
+			'quadtree',
+			() => {
+				quadtree(nodes, options);
 			},
 			benchOptions
 		);

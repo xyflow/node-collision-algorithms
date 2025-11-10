@@ -90,9 +90,7 @@ export const flatbush: CollisionAlgorithm = (
 
 				// Check if there's significant overlap
 				if (px > overlapThreshold && py > overlapThreshold) {
-					moved = true;
-					A.moved = true;
-					B.moved = true;
+					A.moved = B.moved = moved = true;
 
 					// Resolve along the smallest overlap axis
 					if (px < py) {
@@ -121,7 +119,7 @@ export const flatbush: CollisionAlgorithm = (
 			}
 		}
 
-		numIterations = iter;
+		numIterations++;
 
 		// Early exit if no overlaps were found
 		if (!moved) {
