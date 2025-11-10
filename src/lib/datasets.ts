@@ -11,9 +11,9 @@ export const defaultSize = 50;
 
 export type SelectOptions = keyof typeof datasets | 'Create New';
 
-export const initialDataset = 'cascading 15';
+export const initialDataset = 'packed 15';
 export const datasets = {
-	'cascading 15': [
+	'packed 15': [
 		{ position: { x: 618, y: 442 } },
 		{ position: { x: 657.75, y: 482 } },
 		{ position: { x: 580.75, y: 403.5 } },
@@ -30,7 +30,7 @@ export const datasets = {
 		{ position: { x: 713.25, y: 513 } },
 		{ position: { x: 749.25, y: 499.5 } }
 	] satisfies PartialNode[],
-	'cascading 100': [
+	'packed 100': [
 		{ position: { x: 618, y: 442 } },
 		{ position: { x: 657.75, y: 482 } },
 		{ position: { x: 580.75, y: 403.5 } },
@@ -132,7 +132,7 @@ export const datasets = {
 		{ position: { x: 842.2114674447633, y: 216.03620822971064 } },
 		{ position: { x: 916.5078144579971, y: 299.2271883360781 } }
 	] satisfies PartialNode[],
-	'cascading 500': [
+	'packed 500': [
 		{ position: { x: 618, y: 442 } },
 		{ position: { x: 657.75, y: 482 } },
 		{ position: { x: 580.75, y: 403.5 } },

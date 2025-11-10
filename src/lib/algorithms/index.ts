@@ -23,10 +23,10 @@ export type CollisionAlgorithm = (
 export const algorithms = {
 	naive,
 	naiveWasm,
-	geoIndexWasm,
 	rbush,
 	rbushReplace,
 	flatbush,
+	geoIndexWasm,
 	quadtree
 } as const;
 
