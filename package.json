@@ -7,7 +7,7 @@
 		"node": "^22"
 	},
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "pnpm run build:wasm && vite dev",
 		"build": "vite build",
 		"build:wasm": "node wasm/build.js",
 		"prebuild": "pnpm run build:wasm",
