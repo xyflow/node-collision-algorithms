@@ -1,0 +1,3 @@
+overrides:
+  '@xyflow/svelte': link:../../../Library/pnpm/global/5/node_modules/@xyflow/svelte
+  svelt: link:../../../Library/pnpm/global/5/node_modules/@xyflow/svelt

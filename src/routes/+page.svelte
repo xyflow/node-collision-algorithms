@@ -144,7 +144,7 @@
 
 <div class="h-screen w-full">
 	<Panel position="top-left" class="">
-		<span class="text-md font-bold">node overlap resolution algorithms</span>
+		<span class="text-md font-bold">node collision algorithms</span>
 		<span class="text-sm"
 			>by <a
 				class="text-[#FF4002]"
