@@ -27,9 +27,6 @@ importers:
       rbush:
         specifier: ^4.0.1
         version: 4.0.1
-      svelt:
-        specifier: link:../../../Library/pnpm/global/5/node_modules/@xyflow/svelt
-        version: link:../../../Library/pnpm/global/5/node_modules/@xyflow/svelt
     devDependencies:
       '@eslint/compat':
         specifier: ^1.4.0
