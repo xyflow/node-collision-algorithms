@@ -23,7 +23,7 @@
 		}
 	}}
 >
-	<Select.Trigger class="w-[240px] bg-background">
+	<Select.Trigger class="w-[200px] bg-background">
 		{selectedDataset}
 	</Select.Trigger>
 	<Select.Content>

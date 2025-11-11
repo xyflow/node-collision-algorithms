@@ -143,7 +143,7 @@
 
 <div class="h-screen w-full">
 	<Panel position="top-left" class="">
-		<span class="text-md font-bold">node collision algorithms</span>
+		<span class="text-md font-bold">node overlap resolution algorithms</span>
 		<span class="text-sm"
 			>by <a
 				class="text-[#FF4002]"
@@ -159,9 +159,7 @@
 		fitView
 		paneClickDistance={1}
 		selectionOnDrag={false}
-		proOptions={{
-			hideAttribution: true
-		}}
+		attributionPosition="bottom-left"
 		{nodeTypes}
 		onnodedragstop={() => {
 			if (selectedDataset !== 'Create New' && layoutDirectly) {
@@ -228,7 +226,17 @@
 						{#snippet child({ props })}
 							<Button
 								{...props}
-								variant={layoutDirectly ? 'default' : 'ghost'}
+								class={[
+									props.class,
+									'shadow-md shadow-[#FF4002]',
+									{
+										'bg-[#FF4002] shadow-md shadow-[#FF4002] hover:bg-[#FF4002]/90 hover:shadow-[#FF4002]/90':
+											layoutDirectly,
+										'bg-background text-[#FF4002] outline-1 outline-[#FF4002] outline-solid hover:bg-[#FF4002]/5':
+											!layoutDirectly
+									}
+								]}
+								variant={layoutDirectly ? 'default' : 'default'}
 								onclick={() => {
 									layoutDirectly = !layoutDirectly;
 								}}
@@ -238,7 +246,7 @@
 						{/snippet}
 					</Tooltip.Trigger>
 					<Tooltip.Content>
-						<p>Toggle automatic layout</p>
+						<p>Toggle node overlap resolution</p>
 					</Tooltip.Content>
 				</Tooltip.Root>
 			</Tooltip.Provider>
