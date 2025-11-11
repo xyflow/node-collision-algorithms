@@ -66,12 +66,10 @@
 				nodes: isCreateNew ? untrack(() => nodes) : selectedData,
 				iterations: Infinity
 			});
-		} else {
-			if (!isCreateNew && !initial) {
-				nodes = selectedData.map((node) => ({ ...node }));
-				initial = false;
-			}
+		} else if (!isCreateNew && !initial) {
+			nodes = selectedData.map((node) => ({ ...node }));
 		}
+		initial = false;
 	});
 
 	let nodes = $state.raw<Node[]>([...getNodesFromDataset(initialDataset)]);
