@@ -57,7 +57,9 @@
 		}, 50);
 	});
 
+	let initial = true;
 	$effect(() => {
+		selectedData;
 		if (layoutDirectly) {
 			resolveCollisions({
 				algorithm,
@@ -65,8 +67,9 @@
 				iterations: Infinity
 			});
 		} else {
-			if (!isCreateNew) {
-				nodes = [...selectedData];
+			if (!isCreateNew && !initial) {
+				nodes = selectedData.map((node) => ({ ...node }));
+				initial = false;
 			}
 		}
 	});
