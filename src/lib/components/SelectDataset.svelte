@@ -37,6 +37,8 @@
 				</div>
 			</Select.Item>
 		{/each}
-		<Select.Item value="Create New">Create New</Select.Item>
+		{#if import.meta.env.DEV}
+			<Select.Item value="Create New">Create New</Select.Item>
+		{/if}
 	</Select.Content>
 </Select.Root>
