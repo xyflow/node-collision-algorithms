@@ -289,7 +289,9 @@
 									disabled={store.layoutDirectly}
 									onclick={() => {
 										nodes = [
-											...getNodesFromDataset(store.selectedDataset as keyof typeof datasets)
+											...getNodesFromDataset(store.selectedDataset as keyof typeof datasets).map(
+												(node) => ({ ...node })
+											)
 										];
 										measurements = resolveCollisions({
 											dryRun: true,
@@ -326,6 +328,24 @@
 							: `${measurements.time.toFixed(2)} ms`}
 					</p>
 				</div>
+			</Panel>
+		{/if}
+		{#if hideUI}
+			<Panel position="bottom-right">
+				<Button
+					variant="ghost"
+					onclick={() => {
+						nodes = [
+							...getNodesFromDataset(store.selectedDataset as keyof typeof datasets).map(
+								(node) => ({
+									...node
+								})
+							)
+						];
+					}}
+				>
+					<ReloadIcon />
+				</Button>
 			</Panel>
 		{/if}
 		<Background />
