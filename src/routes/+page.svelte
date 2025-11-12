@@ -28,6 +28,9 @@
 	import SelectAlgorithm from '@/components/SelectAlgorithm.svelte';
 	import ReloadIcon from '@/icons/ReloadIcon.svelte';
 	import LightningBoltIcon from '@/icons/LightningBoltIcon.svelte';
+	import GithubIcon from '@/icons/GithubIcon.svelte';
+	import { Badge } from '@/components/ui/badge';
+	import LinkIcon from '@/icons/LinkIcon.svelte';
 
 	const { resolveCollisions } = useCollisionLayout({ margin: 10 });
 
@@ -67,6 +70,7 @@
 				iterations: Infinity
 			});
 		} else if (!isCreateNew && !initial) {
+			// nodes = [...selectedData];
 			nodes = selectedData.map((node) => ({ ...node }));
 		}
 		initial = false;
@@ -143,16 +147,35 @@
 </script>
 
 <div class="h-screen w-full">
-	<Panel position="top-left" class="">
-		<span class="text-md font-bold">node collision algorithms</span>
-		<span class="text-sm"
-			>by <a
-				class="text-[#FF4002]"
-				href="https://xyflow.com"
-				rel="noopener noreferrer"
-				target="_blank">xyflow</a
-			></span
-		>
+	<Panel position="top-left" class="font-[NTDapper]">
+		<div>
+			<span class="text-2xl font-bold">node collision algorithms</span>
+			<span class=" text-foreground/70">
+				by
+				<a
+					class="hover:underline"
+					href="https://xyflow.com"
+					rel="noopener noreferrer"
+					target="_blank"
+				>
+					xyflow
+				</a>
+			</span>
+		</div>
+		<div class="mt-2">
+			<a href="https://xyflow.com/blog/node-collision-algorithms" target="_blank">
+				<Badge variant="secondary" class="bg-primary-100 text-primary-950 hover:underline">
+					<LinkIcon />
+					Read the blog post
+				</Badge>
+			</a>
+			<a href="https://github.com/xyflow/node-collision-algorithms" target="_blank">
+				<Badge variant="secondary" class="hover:underline">
+					<GithubIcon />
+					Github
+				</Badge>
+			</a>
+		</div>
 	</Panel>
 	<SvelteFlow
 		bind:nodes
@@ -223,17 +246,17 @@
 
 			<Tooltip.Provider>
 				<Tooltip.Root delayDuration={0}>
-					<Tooltip.Trigger class="mt-5">
+					<Tooltip.Trigger class="mt-5 bg-background">
 						{#snippet child({ props })}
 							<Button
 								{...props}
 								class={[
 									props.class,
-									'shadow-md shadow-[#FF4002]',
+									'shadow-md shadow-primary-950',
 									{
-										'bg-[#FF4002] shadow-md shadow-[#FF4002] hover:bg-[#FF4002]/90 hover:shadow-[#FF4002]/90':
+										'bg-primary-950 shadow-md shadow-primary-950 hover:bg-primary-800 hover:shadow-primary-800':
 											layoutDirectly,
-										'bg-background text-[#FF4002] outline-1 outline-[#FF4002] outline-solid hover:bg-[#FF4002]/5':
+										'bg-background text-primary-950 outline-1 outline-primary-950 outline-solid hover:bg-primary-100':
 											!layoutDirectly
 									}
 								]}
@@ -310,7 +333,6 @@
 				<p>~{measurements.time.toFixed(2)} ms</p>
 			</div>
 		</Panel>
-		<Panel position="top-left"></Panel>
 		<Background />
 	</SvelteFlow>
 </div>
