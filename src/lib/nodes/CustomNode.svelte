@@ -9,7 +9,7 @@
 <NodeResizer isVisible={selected} minWidth={defaultSize} minHeight={defaultSize} />
 
 <div
-	class="flex h-full min-h-[50px] w-full min-w-[50px] items-center justify-center rounded-lg bg-card shadow-sm"
+	class="flex h-full min-h-[50px] w-full min-w-[50px] items-center justify-center rounded-lg bg-card p-4 shadow-sm"
 >
-	<div>{store.layoutDirectly ? '👊' : '🤙'}</div>
+	<div>{data.label ?? (store.layoutDirectly ? '👊' : '🤙')}</div>
 </div>

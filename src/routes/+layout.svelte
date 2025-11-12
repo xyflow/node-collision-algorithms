@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '@xyflow/svelte/dist/style.css';
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import { SvelteFlowProvider } from '@xyflow/svelte';

@@ -4,13 +4,15 @@ export type PartialNode = {
 	position: { x: number; y: number };
 	width?: number;
 	height?: number;
+	type?: string;
+	data?: { label: string };
 };
 
 export const defaultSize = 50;
 
-export type SelectOptions = keyof typeof datasets | 'Create New';
+export type SelectOptions = keyof typeof datasets | 'Create New' | 'Introduction';
 
-export const initialDataset = 'packed 15';
+export const initialDataset = 'Introduction';
 export const datasets = {
 	'packed 15': [
 		{ position: { x: 618, y: 442 } },
@@ -1877,14 +1879,40 @@ export const datasets = {
 	] satisfies PartialNode[]
 } as const;
 
-export function getNodesFromDataset(dataset: keyof typeof datasets): Node[] {
-	return datasets[dataset].map((raw: PartialNode) => ({
-		...raw,
+export const introductionNodes = [
+	{ position: { x: 624.5229949951172, y: 449.3294925689697 }, data: { label: '🐑' } },
+	{ position: { x: 661.4372713044286, y: 519.636621392332 }, data: { label: '🐑' } },
+	{ position: { x: 554.8109436035156, y: 413.5 }, data: { label: '🐑' } },
+	{ position: { x: 700.5133056640625, y: 380.36670565768145 }, data: { label: '🐑' } },
+	{ position: { x: 637.130859375, y: 309.7630863189697 }, data: { label: '🐑' } },
+	{ position: { x: 630.5133056640625, y: 379.3294925689697 }, data: { label: '🐑' } },
+	{ position: { x: 770.0601806640625, y: 435.203125 }, data: { label: '🐑' } },
+	{ position: { x: 694.5229949951172, y: 449.9597555655055 }, data: { label: '🐑' } },
+	{ position: { x: 707.130859375, y: 310.36670565768145 }, data: { label: '🐑' } },
+	{ position: { x: 560.9664306640625, y: 343.5 }, data: { label: '🐑' } },
+	{ position: { x: 522.3290397822857, y: 487 }, data: { label: '🐑' } },
+	{ position: { x: 591.8360822945833, y: 518.8958988189697 }, data: { label: '🐑' } },
+	{ position: { x: 701.25, y: 589.5363643877208 }, data: { label: '🐑' } },
+	{ position: { x: 731.4372713044286, y: 519.9096270631999 }, data: { label: '🐑' } },
+	{ position: { x: 801.0384603142738, y: 505.203125 }, data: { label: '🐑' } },
+	{ position: { x: 250, y: 450 }, data: { label: '🐶' } }
+] satisfies PartialNode[];
+
+export function getNodesFromDataset(dataset: SelectOptions): Node[] {
+	const data =
+		dataset === 'Introduction'
+			? introductionNodes
+			: dataset === 'Create New'
+				? []
+				: datasets[dataset];
+
+	return data.map((raw: PartialNode) => ({
 		id: crypto.randomUUID(),
 		width: raw.width ?? defaultSize,
 		height: raw.height ?? defaultSize,
 		data: {},
 		type: 'custom',
-		handles: []
+		handles: [],
+		...raw
 	}));
 }
