@@ -321,10 +321,14 @@
 				<SelectDataset bind:selectedDataset={store.selectedDataset} />
 			</div>
 			<div
-				class="mt-5 flex w-26 flex-col bg-background px-1 text-right font-mono text-[0.7em] text-muted-foreground"
+				class="mt-5 flex w-20 flex-col bg-background px-1 text-right font-mono text-[0.7em] text-muted-foreground"
 			>
 				<p>{measurements.numIterations} iter</p>
-				<p>~{measurements.time.toFixed(2)} ms</p>
+				<p>
+					~{measurements.time > 1000
+						? `${(measurements.time / 1000).toFixed(1)} s`
+						: `${measurements.time.toFixed(2)} ms`}
+				</p>
 			</div>
 		</Panel>
 		<Background />
