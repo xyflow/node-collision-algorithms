@@ -1,5 +1,4 @@
 import type { Node } from '@xyflow/svelte';
-import { getRandomEmoji } from './emojis';
 
 export type PartialNode = {
 	position: { x: number; y: number };
@@ -1884,9 +1883,7 @@ export function getNodesFromDataset(dataset: keyof typeof datasets): Node[] {
 		id: crypto.randomUUID(),
 		width: raw.width ?? defaultSize,
 		height: raw.height ?? defaultSize,
-		data: {
-			label: getRandomEmoji()
-		},
+		data: {},
 		type: 'custom',
 		handles: []
 	}));

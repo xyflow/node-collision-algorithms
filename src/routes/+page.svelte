@@ -11,8 +11,7 @@
 
 	import '@xyflow/svelte/dist/style.css';
 
-	import { getNodesFromDataset, datasets, type SelectOptions, initialDataset } from '@/datasets';
-	import { getRandomEmoji } from '@/emojis';
+	import { getNodesFromDataset, datasets, initialDataset } from '@/datasets';
 	import useCollisionLayout from '@/hooks/useCollisionLayout.svelte';
 
 	import * as Tooltip from '@/components/ui/tooltip';
@@ -24,54 +23,47 @@
 	import SortIcon from '@/icons/SortIcon.svelte';
 
 	import CustomNode from '@/nodes/CustomNode.svelte';
-	import { algorithms } from '@/algorithms';
 	import SelectAlgorithm from '@/components/SelectAlgorithm.svelte';
 	import ReloadIcon from '@/icons/ReloadIcon.svelte';
 	import LightningBoltIcon from '@/icons/LightningBoltIcon.svelte';
 	import GithubIcon from '@/icons/GithubIcon.svelte';
 	import { Badge } from '@/components/ui/badge';
 	import LinkIcon from '@/icons/LinkIcon.svelte';
+	import { store } from '@/store';
 
 	const { resolveCollisions } = useCollisionLayout({ margin: 10 });
 
 	const { screenToFlowPosition } = useSvelteFlow();
-
-	let selectedDataset = $state.raw<SelectOptions>(initialDataset);
-	let isCreateNew = $derived(selectedDataset === 'Create New');
-
-	let selectedAlgorithm = $state<keyof typeof algorithms>('naive');
-	let algorithm = $derived(algorithms[selectedAlgorithm]);
-	let layoutDirectly = $state(false);
 
 	let measurements = $state<{ numIterations: number; time: number }>({
 		numIterations: NaN,
 		time: NaN
 	});
 
-	const selectedData = $derived(
-		isCreateNew ? [] : [...getNodesFromDataset(selectedDataset as keyof typeof datasets)]
-	);
-
 	$effect(() => {
-		algorithm;
-		selectedData;
+		store.algorithm;
+		store.selectedData;
 		setTimeout(() => {
-			measurements = resolveCollisions({ dryRun: true, algorithm, nodes: selectedData });
+			measurements = resolveCollisions({
+				dryRun: true,
+				algorithm: store.algorithm,
+				nodes: store.selectedData
+			});
 		}, 50);
 	});
 
 	let initial = true;
 	$effect(() => {
-		selectedData;
-		if (layoutDirectly) {
+		store.selectedData;
+		if (store.layoutDirectly) {
 			resolveCollisions({
-				algorithm,
-				nodes: isCreateNew ? untrack(() => nodes) : selectedData,
+				algorithm: store.algorithm,
+				nodes: store.isCreateNew ? untrack(() => nodes) : store.selectedData,
 				iterations: Infinity
 			});
-		} else if (!isCreateNew && !initial) {
+		} else if (!store.isCreateNew && !initial) {
 			// nodes = [...selectedData];
-			nodes = selectedData.map((node) => ({ ...node }));
+			nodes = store.selectedData.map((node) => ({ ...node }));
 		}
 		initial = false;
 	});
@@ -186,12 +178,12 @@
 		attributionPosition="bottom-left"
 		{nodeTypes}
 		onnodedragstop={() => {
-			if (selectedDataset !== 'Create New' && layoutDirectly) {
-				measurements = resolveCollisions({ algorithm });
+			if (store.selectedDataset !== 'Create New' && store.layoutDirectly) {
+				measurements = resolveCollisions({ algorithm: store.algorithm });
 			}
 		}}
 		onpaneclick={({ event }) => {
-			if (selectedDataset === 'Create New') {
+			if (store.selectedDataset === 'Create New') {
 				const position = screenToFlowPosition({ x: event.clientX, y: event.clientY });
 				nodes = [
 					...nodes,
@@ -202,9 +194,7 @@
 							x: position.x - 25,
 							y: position.y - 25
 						},
-						data: {
-							label: getRandomEmoji()
-						}
+						data: {}
 					}
 				];
 			}
@@ -212,13 +202,13 @@
 	>
 		<Panel position="bottom-right" class="flex gap-2">
 			{#if import.meta.env.DEV}
-				{#if selectedDataset !== 'Create New'}
+				{#if store.selectedDataset !== 'Create New'}
 					<Button
 						variant="ghost"
 						class="mt-5"
 						onclick={() => {
-							nodes = [...getNodesFromDataset(selectedDataset as keyof typeof datasets)];
-							selectedDataset = 'Create New';
+							nodes = [...getNodesFromDataset(store.selectedDataset as keyof typeof datasets)];
+							store.selectedDataset = 'Create New';
 						}}
 					>
 						<EditIcon />
@@ -255,14 +245,14 @@
 									'shadow-md shadow-primary-950',
 									{
 										'bg-primary-950 shadow-md shadow-primary-950 hover:bg-primary-800 hover:shadow-primary-800':
-											layoutDirectly,
+											store.layoutDirectly,
 										'bg-background text-primary-950 outline-1 outline-primary-950 outline-solid hover:bg-primary-100':
-											!layoutDirectly
+											!store.layoutDirectly
 									}
 								]}
-								variant={layoutDirectly ? 'default' : 'default'}
+								variant={store.layoutDirectly ? 'default' : 'default'}
 								onclick={() => {
-									layoutDirectly = !layoutDirectly;
+									store.layoutDirectly = !store.layoutDirectly;
 								}}
 							>
 								<LightningBoltIcon />
@@ -281,9 +271,9 @@
 							<Button
 								{...props}
 								variant="ghost"
-								disabled={layoutDirectly}
+								disabled={store.layoutDirectly}
 								onclick={() => {
-									measurements = resolveCollisions({ algorithm });
+									measurements = resolveCollisions({ algorithm: store.algorithm });
 								}}
 							>
 								<SortIcon />
@@ -302,10 +292,14 @@
 							<Button
 								{...props}
 								variant="ghost"
-								disabled={layoutDirectly}
+								disabled={store.layoutDirectly}
 								onclick={() => {
-									nodes = [...getNodesFromDataset(selectedDataset as keyof typeof datasets)];
-									measurements = resolveCollisions({ dryRun: true, algorithm, nodes });
+									nodes = [...getNodesFromDataset(store.selectedDataset as keyof typeof datasets)];
+									measurements = resolveCollisions({
+										dryRun: true,
+										algorithm: store.algorithm,
+										nodes
+									});
 								}}
 							>
 								<ReloadIcon />
@@ -320,11 +314,11 @@
 
 			<div>
 				<p class="mb-1 font-mono text-[0.7em] text-muted-foreground">algorithm</p>
-				<SelectAlgorithm bind:selectedAlgorithm />
+				<SelectAlgorithm bind:selectedAlgorithm={store.selectedAlgorithm} />
 			</div>
 			<div>
 				<p class="mb-1 font-mono text-[0.7em] text-muted-foreground">dataset</p>
-				<SelectDataset bind:selectedDataset />
+				<SelectDataset bind:selectedDataset={store.selectedDataset} />
 			</div>
 			<div
 				class="mt-5 flex w-26 flex-col bg-background px-1 text-right font-mono text-[0.7em] text-muted-foreground"
