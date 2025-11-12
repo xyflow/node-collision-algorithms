@@ -12,5 +12,5 @@ export class Store {
 		this.isCreateNew ? [] : [...getNodesFromDataset(this.selectedDataset as keyof typeof datasets)]
 	);
 
-	layoutDirectly = $state(false);
+	layoutDirectly = $state(true);
 }

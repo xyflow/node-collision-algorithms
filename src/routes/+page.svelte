@@ -30,6 +30,7 @@
 	import { Badge } from '@/components/ui/badge';
 	import LinkIcon from '@/icons/LinkIcon.svelte';
 	import { store } from '@/store';
+	import { page } from '$app/state';
 
 	const { resolveCollisions } = useCollisionLayout({ margin: 10 });
 
@@ -39,6 +40,8 @@
 		numIterations: NaN,
 		time: NaN
 	});
+
+	const hideUI = $derived(page.url.searchParams.get('hide-ui') === 'true');
 
 	$effect(() => {
 		store.algorithm;
@@ -139,36 +142,37 @@
 </script>
 
 <div class="h-screen w-full">
-	<Panel position="top-left" class="font-[NTDapper]">
-		<div>
-			<span class="text-2xl font-bold">node collision algorithms</span>
-			<span class=" text-foreground/70">
-				by
-				<a
-					class="hover:underline"
-					href="https://xyflow.com"
-					rel="noopener noreferrer"
-					target="_blank"
-				>
-					xyflow
+	{#if !hideUI}
+		<Panel position="top-left" class="font-[NTDapper]">
+			<div>
+				<span class="mr-3 text-2xl font-bold">node collision algorithms</span>
+				<!-- <span class=" text-foreground/70">
+					by
+					<a
+						class="hover:underline"
+						href="https://xyflow.com"
+						rel="noopener noreferrer"
+						target="_blank"
+					>
+						xyflow
+					</a>
+				</span> -->
+				<a href="https://xyflow.com/blog/node-collision-algorithms" target="_blank">
+					<Badge variant="secondary" class="bg-primary-100 text-primary-950 hover:underline">
+						<LinkIcon />
+						Read the blog post
+					</Badge>
 				</a>
-			</span>
-		</div>
-		<div class="mt-2">
-			<a href="https://xyflow.com/blog/node-collision-algorithms" target="_blank">
-				<Badge variant="secondary" class="bg-primary-100 text-primary-950 hover:underline">
-					<LinkIcon />
-					Read the blog post
-				</Badge>
-			</a>
-			<a href="https://github.com/xyflow/node-collision-algorithms" target="_blank">
-				<Badge variant="secondary" class="hover:underline">
-					<GithubIcon />
-					Github
-				</Badge>
-			</a>
-		</div>
-	</Panel>
+				<a href="https://github.com/xyflow/node-collision-algorithms" target="_blank">
+					<Badge variant="secondary" class="hover:underline">
+						<GithubIcon />
+						Github
+					</Badge>
+				</a>
+			</div>
+			<div class="mt-2"></div>
+		</Panel>
+	{/if}
 	<SvelteFlow
 		bind:nodes
 		bind:edges
@@ -200,137 +204,141 @@
 			}
 		}}
 	>
-		<Panel position="bottom-right" class="flex gap-2">
-			{#if import.meta.env.DEV}
-				{#if store.selectedDataset !== 'Create New'}
-					<Button
-						variant="ghost"
-						class="mt-5"
-						onclick={() => {
-							nodes = [...getNodesFromDataset(store.selectedDataset as keyof typeof datasets)];
-							store.selectedDataset = 'Create New';
-						}}
-					>
-						<EditIcon />
-					</Button>
-				{:else}
-					<Button
-						variant="ghost"
-						class="mt-5"
-						onclick={() => {
-							navigator.clipboard.writeText(
-								JSON.stringify(
-									nodes.map((node) => ({
-										position: node.position,
-										width: node.width === 50 ? undefined : node.width,
-										height: node.height === 50 ? undefined : node.height
-									}))
-								)
-							);
-						}}
-					>
-						<CopyIcon />
-					</Button>
+		{#if !hideUI}
+			<Panel position="bottom-right" class="flex gap-2">
+				{#if import.meta.env.DEV}
+					{#if store.selectedDataset !== 'Create New'}
+						<Button
+							variant="ghost"
+							class="mt-5"
+							onclick={() => {
+								nodes = [...getNodesFromDataset(store.selectedDataset as keyof typeof datasets)];
+								store.selectedDataset = 'Create New';
+							}}
+						>
+							<EditIcon />
+						</Button>
+					{:else}
+						<Button
+							variant="ghost"
+							class="mt-5"
+							onclick={() => {
+								navigator.clipboard.writeText(
+									JSON.stringify(
+										nodes.map((node) => ({
+											position: node.position,
+											width: node.width === 50 ? undefined : node.width,
+											height: node.height === 50 ? undefined : node.height
+										}))
+									)
+								);
+							}}
+						>
+							<CopyIcon />
+						</Button>
+					{/if}
 				{/if}
-			{/if}
 
-			<Tooltip.Provider>
-				<Tooltip.Root delayDuration={0}>
-					<Tooltip.Trigger class="mt-5 bg-background">
-						{#snippet child({ props })}
-							<Button
-								{...props}
-								class={[
-									props.class,
-									'shadow-md shadow-primary-950',
-									{
-										'bg-primary-950 shadow-md shadow-primary-950 hover:bg-primary-800 hover:shadow-primary-800':
-											store.layoutDirectly,
-										'bg-background text-primary-950 outline-1 outline-primary-950 outline-solid hover:bg-primary-100':
-											!store.layoutDirectly
-									}
-								]}
-								variant={store.layoutDirectly ? 'default' : 'default'}
-								onclick={() => {
-									store.layoutDirectly = !store.layoutDirectly;
-								}}
-							>
-								<LightningBoltIcon />
-							</Button>
-						{/snippet}
-					</Tooltip.Trigger>
-					<Tooltip.Content>
-						<p>Toggle node overlap resolution</p>
-					</Tooltip.Content>
-				</Tooltip.Root>
-			</Tooltip.Provider>
-			<Tooltip.Provider>
-				<Tooltip.Root delayDuration={0}>
-					<Tooltip.Trigger class="mt-5">
-						{#snippet child({ props })}
-							<Button
-								{...props}
-								variant="ghost"
-								disabled={store.layoutDirectly}
-								onclick={() => {
-									measurements = resolveCollisions({ algorithm: store.algorithm });
-								}}
-							>
-								<SortIcon />
-							</Button>
-						{/snippet}
-					</Tooltip.Trigger>
-					<Tooltip.Content>
-						<p>Run algorithm</p>
-					</Tooltip.Content>
-				</Tooltip.Root>
-			</Tooltip.Provider>
-			<Tooltip.Provider>
-				<Tooltip.Root delayDuration={0}>
-					<Tooltip.Trigger class="mt-5">
-						{#snippet child({ props })}
-							<Button
-								{...props}
-								variant="ghost"
-								disabled={store.layoutDirectly}
-								onclick={() => {
-									nodes = [...getNodesFromDataset(store.selectedDataset as keyof typeof datasets)];
-									measurements = resolveCollisions({
-										dryRun: true,
-										algorithm: store.algorithm,
-										nodes
-									});
-								}}
-							>
-								<ReloadIcon />
-							</Button>
-						{/snippet}
-					</Tooltip.Trigger>
-					<Tooltip.Content>
-						<p>Reload dataset</p>
-					</Tooltip.Content>
-				</Tooltip.Root>
-			</Tooltip.Provider>
+				<Tooltip.Provider>
+					<Tooltip.Root delayDuration={0}>
+						<Tooltip.Trigger class="mt-5 bg-background">
+							{#snippet child({ props })}
+								<Button
+									{...props}
+									class={[
+										props.class,
+										'shadow-md shadow-primary-950',
+										{
+											'bg-primary-950 shadow-md shadow-primary-950 hover:bg-primary-800 hover:shadow-primary-800':
+												store.layoutDirectly,
+											'bg-background text-primary-950 outline-1 outline-primary-950 outline-solid hover:bg-primary-100':
+												!store.layoutDirectly
+										}
+									]}
+									variant={store.layoutDirectly ? 'default' : 'default'}
+									onclick={() => {
+										store.layoutDirectly = !store.layoutDirectly;
+									}}
+								>
+									<LightningBoltIcon />
+								</Button>
+							{/snippet}
+						</Tooltip.Trigger>
+						<Tooltip.Content>
+							<p>Toggle node overlap resolution</p>
+						</Tooltip.Content>
+					</Tooltip.Root>
+				</Tooltip.Provider>
+				<Tooltip.Provider>
+					<Tooltip.Root delayDuration={0}>
+						<Tooltip.Trigger class="mt-5">
+							{#snippet child({ props })}
+								<Button
+									{...props}
+									variant="ghost"
+									disabled={store.layoutDirectly}
+									onclick={() => {
+										measurements = resolveCollisions({ algorithm: store.algorithm });
+									}}
+								>
+									<SortIcon />
+								</Button>
+							{/snippet}
+						</Tooltip.Trigger>
+						<Tooltip.Content>
+							<p>Run algorithm</p>
+						</Tooltip.Content>
+					</Tooltip.Root>
+				</Tooltip.Provider>
+				<Tooltip.Provider>
+					<Tooltip.Root delayDuration={0}>
+						<Tooltip.Trigger class="mt-5">
+							{#snippet child({ props })}
+								<Button
+									{...props}
+									variant="ghost"
+									disabled={store.layoutDirectly}
+									onclick={() => {
+										nodes = [
+											...getNodesFromDataset(store.selectedDataset as keyof typeof datasets)
+										];
+										measurements = resolveCollisions({
+											dryRun: true,
+											algorithm: store.algorithm,
+											nodes
+										});
+									}}
+								>
+									<ReloadIcon />
+								</Button>
+							{/snippet}
+						</Tooltip.Trigger>
+						<Tooltip.Content>
+							<p>Reload dataset</p>
+						</Tooltip.Content>
+					</Tooltip.Root>
+				</Tooltip.Provider>
 
-			<div>
-				<p class="mb-1 font-mono text-[0.7em] text-muted-foreground">algorithm</p>
-				<SelectAlgorithm bind:selectedAlgorithm={store.selectedAlgorithm} />
-			</div>
-			<div>
-				<p class="mb-1 font-mono text-[0.7em] text-muted-foreground">dataset</p>
-				<SelectDataset bind:selectedDataset={store.selectedDataset} />
-			</div>
-			<div
-				class="mt-5 flex w-20 flex-col bg-background px-1 text-right font-mono text-[0.7em] text-muted-foreground"
-			>
-				<p>{measurements.numIterations} iter</p>
-				<p>
-					~{measurements.time > 1000
-						? `${(measurements.time / 1000).toFixed(1)} s`
-						: `${measurements.time.toFixed(2)} ms`}
-				</p>
-			</div>
-		</Panel>
+				<div>
+					<p class="mb-1 font-mono text-[0.7em] text-muted-foreground">algorithm</p>
+					<SelectAlgorithm bind:selectedAlgorithm={store.selectedAlgorithm} />
+				</div>
+				<div>
+					<p class="mb-1 font-mono text-[0.7em] text-muted-foreground">dataset</p>
+					<SelectDataset bind:selectedDataset={store.selectedDataset} />
+				</div>
+				<div
+					class="mt-5 flex w-20 flex-col bg-background px-1 text-right font-mono text-[0.7em] text-muted-foreground"
+				>
+					<p>{measurements.numIterations} iter</p>
+					<p>
+						~{measurements.time > 1000
+							? `${(measurements.time / 1000).toFixed(1)} s`
+							: `${measurements.time.toFixed(2)} ms`}
+					</p>
+				</div>
+			</Panel>
+		{/if}
 		<Background />
 	</SvelteFlow>
 </div>
