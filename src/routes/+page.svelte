@@ -145,7 +145,7 @@
 		<Panel position="top-left" class="pointer-events-none m-0! font-[NTDapper]">
 			<div class="bg-linear-to-br from-white from-0% via-white via-70% to-transparent p-4 pb-6">
 				<div class="pointer-events-auto">
-					<span class="text-2xl font-bold">node collision algorithms</span>
+					<span class="mr-3 text-2xl font-bold">node collision algorithms</span>
 					<a href="https://xyflow.com/blog/node-collision-algorithms" target="_blank">
 						<Badge variant="secondary" class="bg-primary-100 text-primary-950 hover:underline">
 							<LinkIcon />
