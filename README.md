@@ -1,6 +1,6 @@
 # Node Collision Algorithms
 
-A playground to explore, develop, and benchmark algorithms that resolve overlapping nodes in browser environments.
+A playground to explore, develop, and benchmark algorithms that resolve overlapping nodes in browser environments. Although the primary use cases are [React Flow](https://reactflow.dev/) & [Svelte Flow](https://svelteflow.dev/), the implementations are designed to be use‑case agnostic.
 
 > [!NOTE]
 > Fiddle with the [demo](https://node-collision-algorithms.vercel.app/) or read our [blog post](https://xyflow.com/blog/node-collision-algorithms).
@@ -9,9 +9,9 @@ A playground to explore, develop, and benchmark algorithms that resolve overlapp
 
 ### Features
 
-- **Playground** for comparing and developing algorithms & datasets
-- **WebAssembly Toolchain via Rust** to easily test out non-Javascript solutions
-- **Benchmark** for comparing the performance on different datasets
+- **Playground** for comparing and developing algorithms & datasets using [SvelteKit](https://github.com/sveltejs/kit), [shadcn-svelte](https://github.com/huntabyte/shadcn-svelte) & [Svelte Flow](https://github.com/xyflow/xyflow)
+- **WebAssembly Toolchain via Rust** to easily test out non-Javascript solutions using [wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen) & [binaryen](https://github.com/WebAssembly/binaryen)
+- **Benchmark** for comparing the performance on different datasets using [Vitest](https://github.com/vitest-dev/vitest) & [tinybench](https://github.com/tinylibs/tinybench)
 
 ### Algorithms
 
@@ -47,6 +47,7 @@ Although this project may appear complete, please consider it to be in an early 
   - Possible causes: querying of stale indexes, stale values within single iterations, bug or incorrect use of library
 - [ ] Compare different overlap resolution strategies
   - Lock position of dropped node
+  - Support subflows and child nodes
 
 #### Benchmark
 
@@ -58,7 +59,7 @@ Although this project may appear complete, please consider it to be in an early 
 ## Benchmark Results
 
 > [!IMPORTANT]  
-> Every benchmark is incomplete. Always expect flaws in either the implementation or in the measurement of results!
+> Every benchmark is incomplete and flawed. Always expect mistakes, either in the implementation, the test environment, or in the method of measurement.
 
 TBD
 
