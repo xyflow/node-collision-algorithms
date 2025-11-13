@@ -30,7 +30,7 @@ Each algorithm implements the same [`CollisionAlgorithm`](src/lib/algorithms/ind
 
 ## About this project
 
-> ![WARNING]
+> [!WARNING]  
 > _Although this project may appear complete, please consider it to be in an early stage and in need of feedback. If you find any inconsistencies or have any ideas on how to improve it, feel free to open an issue or file a pull request!_
 
 ### Future Work
