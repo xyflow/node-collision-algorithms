@@ -5,13 +5,13 @@ A playground to explore, develop, and benchmark algorithms that resolve overlapp
 > [!NOTE]
 > _Fiddle with the [demo](https://node-collision-algorithms.vercel.app/) or read our [blog post](https://xyflow.com/blog/node-collision-algorithms)._
 
-![Title](static/title.gif)
-
 ### Features
 
 - **Playground** for comparing and developing algorithms & datasets using [SvelteKit](https://github.com/sveltejs/kit), [shadcn-svelte](https://github.com/huntabyte/shadcn-svelte) & [Svelte Flow](https://github.com/xyflow/xyflow)
 - **WebAssembly Toolchain via Rust** to easily test out non-Javascript solutions using [wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen) & [binaryen](https://github.com/WebAssembly/binaryen)
 - **Benchmark** for comparing the performance on different datasets using [Vitest](https://github.com/vitest-dev/vitest) & [tinybench](https://github.com/tinylibs/tinybench)
+
+![Title](static/title.gif)
 
 ### Algorithms
 
@@ -27,15 +27,6 @@ Each algorithm implements the same [`CollisionAlgorithm`](src/lib/algorithms/ind
 - **[Flatbush](src/lib/algorithms/flatbush.ts)**: Memory-efficient flat and static R-tree implementation using [flatbush](https://github.com/mourner/flatbush) (bulk insert)
 - **[GeoIndex](src/lib/algorithms/geoIndex.ts)**: Rust based R-tree index with same data structure as flatbush using [geo-index](https://github.com/kylebarron/geo-index) (bulk insert)
 - **[Quadtree](src/lib/algorithms/quadtree.ts)**: Recursive spatial partitioning into quadrants for fast lookups using [quadtree-ts](https://github.com/timohausmann/quadtree-js) (bulk insert)
-
-## About this project
-
-> [!WARNING]  
-> _Although this project may appear complete, please consider it to be in an early stage and in need of feedback. If you find any inconsistencies or have any ideas on how to improve it, feel free to open an issue or file a pull request!_
-
-### Future Work
-
-We are pleased with the current architecture and functionality of the playground and toolchain; nevertheless, numerous optimizations are yet to be explored and features to be expanded.
 
 #### Optimizations
 
@@ -65,9 +56,11 @@ We are pleased with the current architecture and functionality of the playground
 > [!IMPORTANT]  
 > _Every benchmark is incomplete and flawed. Always expect mistakes, either in the implementation, the test environment, or in the method of measurement._
 
+There are outstanding optimizations to be done to better leverage spatial indexes and further reduce overhead. Check out the [issues tab](https://github.com/xyflow/node-collision-algorithms/issues) if you are interested.
+
 TBD
 
-## Setup
+## Running the project
 
 ### Prerequisites
 
@@ -126,7 +119,3 @@ pnpm run dev
 ```
 
 The application will be available at `http://localhost:5173`
-
-## Development
-
-TBD
