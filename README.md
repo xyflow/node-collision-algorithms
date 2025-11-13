@@ -1,6 +1,6 @@
 # Node Collision Algorithms
 
-A playground to explore, develop, and benchmark algorithms that resolve overlapping nodes in browser environments. Although the primary use cases are [React Flow](https://reactflow.dev/) & [Svelte Flow](https://svelteflow.dev/), the implementations are designed to be use‑case agnostic.
+A playground to explore, develop, and benchmark algorithms that resolve overlapping nodes in the browser. Although the primary use cases are [React Flow](https://reactflow.dev/) & [Svelte Flow](https://svelteflow.dev/), the implementations aim to be use‑case agnostic.
 
 > [!NOTE]
 > Fiddle with the [demo](https://node-collision-algorithms.vercel.app/) or read our [blog post](https://xyflow.com/blog/node-collision-algorithms).
@@ -15,34 +15,38 @@ A playground to explore, develop, and benchmark algorithms that resolve overlapp
 
 ### Algorithms
 
-Each algorithm implements the same interface (nodes in, nodes out) but uses different strategies for collision detection.
+Each algorithm implements the same [`CollisionAlgorithm`](src/lib/algorithms/index.ts) interface (nodes in, nodes out) but uses different strategies for collision detection.
 
-- **Naive**: Simple nested loop checking all node pairs - O(n²) complexity
-- **NaiveWasm**: Same as the JS version, except [SoA instead of AoS](https://en.wikipedia.org/wiki/AoS_and_SoA)
+- **[Naive](src/lib/algorithms/naive.ts)**: Simple nested loop checking all node pairs - O(n²) complexity
+- **[NaiveWasm](src/lib/algorithms/naiveWasm.ts)**: Same as the JS version, except [SoA instead of AoS](https://en.wikipedia.org/wiki/AoS_and_SoA)
 
 #### Using different spatial index implementations
 
-- **[Rbush](https://github.com/mourner/rbush)**: R-tree based spatial index
-- **[Flatbush](https://github.com/mourner/flatbush)**: Memory-efficient flat and static R-tree implementation
-- **[geo-index](https://github.com/kylebarron/geo-index)**: Rust based R-tree index with same data structure as flatbush
-- **[quadtree-ts](https://github.com/timohausmann/quadtree-js)**: Recursive spatial partitioning into quadrants for fast lookups
+- **[Rbush](src/lib/algorithms/rbush.ts)**: R-tree based spatial index using [rbush](https://github.com/mourner/rbush) library with bulk insert mode
+- **[RbushReplace](src/lib/algorithms/rbushReplace.ts)**: [rbush](https://github.com/mourner/rbush) library with updating single nodes
+- **[Flatbush](src/lib/algorithms/flatbush.ts)**: Memory-efficient flat and static R-tree implementation using [flatbush](https://github.com/mourner/flatbush) (bulk insert)
+- **[GeoIndex](src/lib/algorithms/geoIndex.ts)**: Rust based R-tree index with same data structure as flatbush using [geo-index](https://github.com/kylebarron/geo-index) (bulk insert)
+- **[Quadtree](src/lib/algorithms/quadtree.ts)**: Recursive spatial partitioning into quadrants for fast lookups using [quadtree-ts](https://github.com/timohausmann/quadtree-js) (bulk insert)
 
 ## About this project
 
-Although this project may appear complete, please consider it to be in an early stage. We are pleased with the current architecture and functionality of the playground and toolchain; nevertheless, numerous optimizations are yet to be implemented and bugs remain to be found.
+> ![WARNING]
+> Although this project may appear complete, please consider it to be in an early stage and in need of feedback. If you find any inconsistencies or have any ideas on how to improve it, feel free to open an issue or file a pull request!
 
 ### Future Work
+
+We are pleased with the current architecture and functionality of the playground and toolchain; nevertheless, numerous optimizations are yet to be explored and features to be expanded.
 
 #### Optimizations
 
 - [ ] Rebuild spatial indexes more sparsely
-- [ ] Skip initial iteration by building required datastracture in the main loop
+- [ ] Skip initial iteration by building required data structure in the main loop
 - [ ] Investigate more performant use of libraries
 - [ ] Investigate baseline overhead for calling WASM
 
 #### Features
 
-- [ ] Gather more realistic datasets
+- [ ] Gather more realistic [datasets](src/lib/datasets.ts)
 - [ ] Visualize and investigate reasons for differences in results
   - Possible causes: querying of stale indexes, stale values within single iterations, bug or incorrect use of library
 - [ ] Compare different overlap resolution strategies
