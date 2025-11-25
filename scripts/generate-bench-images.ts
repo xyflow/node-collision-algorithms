@@ -176,11 +176,11 @@ async function generateBenchImages() {
 					const datasets = chart.data.datasets;
 					const chartArea = chart.chartArea;
 
-					const legendX = chartArea.left + 15;
-					const legendY = chartArea.top + 15;
-					const lineHeight = 22;
-					const boxWidth = 30;
-					const boxHeight = 3;
+					const legendX = chartArea.left + 20;
+					const legendY = chartArea.top + 20;
+					const lineHeight = 32;
+					const boxWidth = 40;
+					const boxHeight = 4;
 
 					ctx.save();
 					datasets.forEach((dataset, i) => {
@@ -191,7 +191,7 @@ async function generateBenchImages() {
 						// Draw line (with dash if applicable)
 						ctx.beginPath();
 						ctx.strokeStyle = ds.borderColor as string;
-						ctx.lineWidth = 2;
+						ctx.lineWidth = 3;
 						if (ds.borderDash && ds.borderDash.length > 0) {
 							ctx.setLineDash(ds.borderDash);
 						} else {
@@ -204,9 +204,9 @@ async function generateBenchImages() {
 						// Draw label
 						ctx.setLineDash([]);
 						ctx.fillStyle = '#666';
-						ctx.font = '12px sans-serif';
+						ctx.font = '18px sans-serif';
 						ctx.textBaseline = 'middle';
-						ctx.fillText(ds.label as string, legendX + boxWidth + 8, y + boxHeight);
+						ctx.fillText(ds.label as string, legendX + boxWidth + 12, y + boxHeight);
 					});
 					ctx.restore();
 				}
@@ -243,7 +243,7 @@ async function generateBenchImages() {
 							display: true,
 							text: titleText,
 							font: {
-								size: 20,
+								size: 28,
 								weight: 'bold'
 							}
 						},
@@ -268,10 +268,13 @@ async function generateBenchImages() {
 								display: true,
 								text: 'Mean Time (ms)',
 								font: {
-									size: 14
+									size: 20
 								}
 							},
 							ticks: {
+								font: {
+									size: 16
+								},
 								callback: function (value) {
 									if (typeof value === 'number') {
 										return value.toFixed(1);
@@ -288,6 +291,9 @@ async function generateBenchImages() {
 								drawOnChartArea: false
 							},
 							ticks: {
+								font: {
+									size: 16
+								},
 								callback: function (value) {
 									if (typeof value === 'number') {
 										return value.toFixed(1);
@@ -301,7 +307,12 @@ async function generateBenchImages() {
 								display: true,
 								text: 'Number of Nodes',
 								font: {
-									size: 14
+									size: 20
+								}
+							},
+							ticks: {
+								font: {
+									size: 16
 								}
 							}
 						}
