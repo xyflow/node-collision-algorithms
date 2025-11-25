@@ -58,8 +58,6 @@ Each algorithm implements the same [`CollisionAlgorithm`](src/lib/algorithms/ind
 
 There are outstanding optimizations to be done to better leverage spatial indexes and further reduce overhead. Check out the [issues tab](https://github.com/xyflow/node-collision-algorithms/issues) if you are interested.
 
-The benchmarks measure time per iteration (ms) for resolving collisions across three different node distributions. Lower values are better.
-
 ### Packed
 
 Nodes are positioned in a dense grid with maximum overlap. This scenario stresses algorithms with many collision pairs.
