@@ -28,29 +28,6 @@ Each algorithm implements the same [`CollisionAlgorithm`](src/lib/algorithms/ind
 - **[GeoIndex](src/lib/algorithms/geoIndex.ts)**: Rust based R-tree index with same data structure as flatbush using [geo-index](https://github.com/kylebarron/geo-index) (bulk insert)
 - **[Quadtree](src/lib/algorithms/quadtree.ts)**: Recursive spatial partitioning into quadrants for fast lookups using [quadtree-ts](https://github.com/timohausmann/quadtree-js) (bulk insert)
 
-#### Optimizations
-
-- [ ] Rebuild spatial indexes more sparsely
-- [ ] Skip initial iteration by building required data structure in the main loop
-- [ ] Investigate more performant use of libraries
-- [ ] Investigate baseline overhead for calling WASM
-
-#### Features
-
-- [ ] Gather more realistic [datasets](src/lib/datasets.ts)
-- [ ] Visualize and investigate reasons for differences in results
-  - Possible causes: querying of stale indexes, stale values within single iterations, bug or incorrect use of library
-- [ ] Compare different overlap resolution strategies
-  - Lock position of dropped node
-  - Support subflows and child nodes
-
-#### Benchmark
-
-- [ ] Measure memory usage
-- [ ] Run benchmark automatically in isolated environment
-- [ ] Investigate influence of GC settings
-- [ ] Compare JS runtimes
-
 ## Benchmark Results
 
 > [!IMPORTANT]  
