@@ -204,7 +204,7 @@ async function generateBenchImages() {
 						// Draw label
 						ctx.setLineDash([]);
 						ctx.fillStyle = '#666';
-						ctx.font = '18px sans-serif';
+						ctx.font = 'bold 18px sans-serif';
 						ctx.textBaseline = 'middle';
 						ctx.fillText(ds.label as string, legendX + boxWidth + 12, y + boxHeight);
 					});
@@ -245,7 +245,8 @@ async function generateBenchImages() {
 							font: {
 								size: 28,
 								weight: 'bold'
-							}
+							},
+							color: '#666'
 						},
 						legend: {
 							display: false
@@ -269,12 +270,17 @@ async function generateBenchImages() {
 								text: 'Mean Time (ms)',
 								font: {
 									size: 20
-								}
+								},
+								color: '#666'
+							},
+							grid: {
+								color: 'rgba(102, 102, 102, 0.4)'
 							},
 							ticks: {
 								font: {
 									size: 16
 								},
+								color: '#666',
 								callback: function (value) {
 									if (typeof value === 'number') {
 										return value.toFixed(1);
@@ -294,6 +300,7 @@ async function generateBenchImages() {
 								font: {
 									size: 16
 								},
+								color: '#666',
 								callback: function (value) {
 									if (typeof value === 'number') {
 										return value.toFixed(1);
@@ -308,12 +315,17 @@ async function generateBenchImages() {
 								text: 'Number of Nodes',
 								font: {
 									size: 20
-								}
+								},
+								color: '#666'
+							},
+							grid: {
+								color: 'rgba(102, 102, 102, 0.4)'
 							},
 							ticks: {
 								font: {
 									size: 16
-								}
+								},
+								color: '#666'
 							}
 						}
 					}
