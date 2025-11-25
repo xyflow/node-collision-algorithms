@@ -18,6 +18,9 @@ export default defineConfig({
 	assetsInclude: ['**/*.wasm'], // Ensure WASM files are served correctly
 	test: {
 		expect: { requireAssertions: true },
+		benchmark: {
+			outputJson: './bench-results.json'
+		},
 		projects: [
 			{
 				extends: './vite.config.ts',

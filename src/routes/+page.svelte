@@ -162,6 +162,7 @@
 			</div>
 		</Panel>
 	{/if}
+
 	<SvelteFlow
 		bind:nodes
 		bind:edges
@@ -170,6 +171,7 @@
 		selectionOnDrag={false}
 		attributionPosition="bottom-left"
 		{nodeTypes}
+		minZoom={0.3}
 		onnodedragstop={() => {
 			if (store.selectedDataset !== 'Create New' && store.layoutDirectly) {
 				measurements = resolveCollisions({ algorithm: store.algorithm });

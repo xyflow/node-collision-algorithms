@@ -18,7 +18,9 @@
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
 		"test": "vitest run",
-		"bench": "vitest bench"
+		"bench": "vitest bench",
+		"bench:images": "vitest bench --run && pnpm run graphs",
+		"graphs": "tsx scripts/generate-bench-images.ts"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.4.0",
@@ -32,6 +34,7 @@
 		"@tailwindcss/vite": "^4.1.14",
 		"@types/node": "^24",
 		"bits-ui": "^2.11.0",
+		"chart.js": "^4.5.1",
 		"clsx": "^2.1.1",
 		"eslint": "^9.38.0",
 		"eslint-config-prettier": "^10.1.8",
@@ -40,11 +43,13 @@
 		"prettier": "^3.6.2",
 		"prettier-plugin-svelte": "^3.4.0",
 		"prettier-plugin-tailwindcss": "^0.7.1",
+		"skia-canvas": "^3.0.8",
 		"svelte": "^5.41.0",
 		"svelte-check": "^4.3.3",
 		"tailwind-merge": "^3.3.1",
 		"tailwind-variants": "^3.1.1",
 		"tailwindcss": "^4.1.14",
+		"tsx": "^4.20.6",
 		"tw-animate-css": "^1.4.0",
 		"typescript": "^5.9.3",
 		"typescript-eslint": "^8.46.1",
