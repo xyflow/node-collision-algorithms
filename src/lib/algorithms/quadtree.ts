@@ -8,6 +8,8 @@ type Rect = Rectangle<{
 	moved: boolean;
 }>;
 
+const quadtreeMargin = 25;
+
 function getBoxesFromNodes(nodes: Node[], margin: number = 0) {
 	const rects: Rect[] = new Array(nodes.length);
 
@@ -37,7 +39,15 @@ function getBoxesFromNodes(nodes: Node[], margin: number = 0) {
 		});
 	}
 
-	return { rects, quadtreeSize: { width: maxX - minX, height: maxY - minY, x: minX, y: minY } };
+	return {
+		rects,
+		quadtreeSize: {
+			width: maxX - minX + quadtreeMargin * 2,
+			height: maxY - minY + quadtreeMargin * 2,
+			x: minX - quadtreeMargin,
+			y: minY - quadtreeMargin
+		}
+	};
 }
 
 export const quadtree: CollisionAlgorithm = (
@@ -99,10 +109,18 @@ export const quadtree: CollisionAlgorithm = (
 					}
 
 					quadtreeSize = {
-						width: Math.max(quadtreeSize.width, A.x + A.width, B.x + B.width),
-						height: Math.max(quadtreeSize.height, A.y + A.height, B.y + B.height),
-						x: Math.min(quadtreeSize.x, A.x, B.x),
-						y: Math.min(quadtreeSize.y, A.y, B.y)
+						width: Math.max(
+							quadtreeSize.width,
+							A.x + A.width + quadtreeMargin * 2,
+							B.x + B.width + quadtreeMargin * 2
+						),
+						height: Math.max(
+							quadtreeSize.height,
+							A.y + A.height + quadtreeMargin * 2,
+							B.y + B.height + quadtreeMargin * 2
+						),
+						x: Math.min(quadtreeSize.x, A.x - quadtreeMargin, B.x - quadtreeMargin),
+						y: Math.min(quadtreeSize.y, A.y - quadtreeMargin, B.y - quadtreeMargin)
 					};
 				}
 			}

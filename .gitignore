@@ -26,4 +26,3 @@ vite.config.ts.timestamp-*
 wasm/pkg/
 wasm/target/
 
-static/benchmarks/

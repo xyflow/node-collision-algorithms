@@ -47,6 +47,14 @@ Object.keys(datasets).forEach((datasetKey) => {
 		);
 
 		bench(
+			'naiveWasm',
+			() => {
+				naiveWasm(nodes, options);
+			},
+			benchOptions
+		);
+
+		bench(
 			'rbush',
 			() => {
 				rbush(nodes, options);
@@ -66,14 +74,6 @@ Object.keys(datasets).forEach((datasetKey) => {
 			'flatbush',
 			() => {
 				flatbush(nodes, options);
-			},
-			benchOptions
-		);
-
-		bench(
-			'naiveWasm',
-			() => {
-				naiveWasm(nodes, options);
 			},
 			benchOptions
 		);
