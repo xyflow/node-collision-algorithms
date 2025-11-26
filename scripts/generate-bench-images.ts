@@ -176,9 +176,9 @@ async function generateBenchImages() {
 					const datasets = chart.data.datasets;
 					const chartArea = chart.chartArea;
 
-					const legendX = chartArea.left + 20;
+					const legendX = chartArea.left + 25;
 					const legendY = chartArea.top + 20;
-					const lineHeight = 32;
+					const lineHeight = 36;
 					const boxWidth = 40;
 					const boxHeight = 4;
 
@@ -188,10 +188,10 @@ async function generateBenchImages() {
 						const ds = dataset as any;
 						const y = legendY + i * lineHeight;
 
-					// Draw line (with dash if applicable)
-					ctx.beginPath();
-					ctx.strokeStyle = ds.borderColor as string;
-					ctx.lineWidth = 8;
+						// Draw line (with dash if applicable)
+						ctx.beginPath();
+						ctx.strokeStyle = ds.borderColor as string;
+						ctx.lineWidth = 8;
 						if (ds.borderDash && ds.borderDash.length > 0) {
 							ctx.setLineDash(ds.borderDash);
 						} else {
@@ -201,10 +201,10 @@ async function generateBenchImages() {
 						ctx.lineTo(legendX + boxWidth, y + boxHeight);
 						ctx.stroke();
 
-					// Draw label
-					ctx.setLineDash([]);
-					ctx.fillStyle = '#666';
-					ctx.font = '18px sans-serif';
+						// Draw label
+						ctx.setLineDash([]);
+						ctx.fillStyle = '#666';
+						ctx.font = '24px sans-serif';
 						ctx.textBaseline = 'middle';
 						ctx.fillText(ds.label as string, legendX + boxWidth + 12, y + boxHeight);
 					});
@@ -243,7 +243,7 @@ async function generateBenchImages() {
 							display: true,
 							text: titleText,
 							font: {
-								size: 28,
+								size: 36,
 								weight: 'bold'
 							},
 							color: '#666'
@@ -269,7 +269,7 @@ async function generateBenchImages() {
 								display: true,
 								text: 'Mean Time (ms)',
 								font: {
-									size: 20
+									size: 26
 								},
 								color: '#666'
 							},
@@ -278,7 +278,7 @@ async function generateBenchImages() {
 							},
 							ticks: {
 								font: {
-									size: 16
+									size: 22
 								},
 								color: '#666',
 								callback: function (value) {
@@ -298,7 +298,7 @@ async function generateBenchImages() {
 							},
 							ticks: {
 								font: {
-									size: 16
+									size: 22
 								},
 								color: '#666',
 								callback: function (value) {
@@ -314,7 +314,7 @@ async function generateBenchImages() {
 								display: true,
 								text: 'Number of Nodes',
 								font: {
-									size: 20
+									size: 26
 								},
 								color: '#666'
 							},
@@ -323,7 +323,7 @@ async function generateBenchImages() {
 							},
 							ticks: {
 								font: {
-									size: 16
+									size: 22
 								},
 								color: '#666'
 							}
