@@ -188,10 +188,10 @@ async function generateBenchImages() {
 						const ds = dataset as any;
 						const y = legendY + i * lineHeight;
 
-						// Draw line (with dash if applicable)
-						ctx.beginPath();
-						ctx.strokeStyle = ds.borderColor as string;
-						ctx.lineWidth = 3;
+					// Draw line (with dash if applicable)
+					ctx.beginPath();
+					ctx.strokeStyle = ds.borderColor as string;
+					ctx.lineWidth = 8;
 						if (ds.borderDash && ds.borderDash.length > 0) {
 							ctx.setLineDash(ds.borderDash);
 						} else {
@@ -201,10 +201,10 @@ async function generateBenchImages() {
 						ctx.lineTo(legendX + boxWidth, y + boxHeight);
 						ctx.stroke();
 
-						// Draw label
-						ctx.setLineDash([]);
-						ctx.fillStyle = '#666';
-						ctx.font = 'bold 18px sans-serif';
+					// Draw label
+					ctx.setLineDash([]);
+					ctx.fillStyle = '#666';
+					ctx.font = '18px sans-serif';
 						ctx.textBaseline = 'middle';
 						ctx.fillText(ds.label as string, legendX + boxWidth + 12, y + boxHeight);
 					});
