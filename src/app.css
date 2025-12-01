@@ -147,3 +147,7 @@
 		@apply bg-background text-foreground;
 	}
 }
+
+.svelte-flow__attribution {
+	padding: 3px 6px;
+}
