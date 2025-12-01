@@ -32,5 +32,6 @@ export default defineConfig({
 				}
 			}
 		]
-	}
+	},
+	base: 'https://node-collision-algorithms.vercel.app/'
 });
