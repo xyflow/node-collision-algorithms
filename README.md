@@ -3,7 +3,7 @@
 A playground to explore, develop, and benchmark algorithms that resolve overlapping nodes in the browser. Although the primary use cases are [React Flow](https://reactflow.dev/) & [Svelte Flow](https://svelteflow.dev/), the implementations aim to be use‑case agnostic.
 
 > [!NOTE]
-> _Fiddle with the [demo](https://node-collision-algorithms.vercel.app/) or read our [blog post](https://xyflow.com/blog/node-collision-detection-algorithms)._
+> _Fiddle with the [demo](https://xyflow.com/node-collisions) or read our [blog post](https://xyflow.com/blog/node-collision-detection-algorithms)._
 
 ### Features
 
