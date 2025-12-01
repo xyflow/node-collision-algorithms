@@ -40,7 +40,7 @@ try {
 		});
 	} catch {
 		console.log('Installing wasm-bindgen-cli...');
-		execSync('cargo install wasm-bindgen-cli', {
+		execSync('cargo install wasm-bindgen-cli --version 0.2.105', {
 			cwd: wasmDir,
 			stdio: 'inherit'
 		});
