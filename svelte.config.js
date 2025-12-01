@@ -12,7 +12,7 @@ const config = {
 		alias: {
 			'@/*': './src/lib/'
 		},
-		paths: { relative: false }
+		paths: { relative: false, assets: 'https://node-collision-algorithms.vercel.app' }
 	}
 };
 
