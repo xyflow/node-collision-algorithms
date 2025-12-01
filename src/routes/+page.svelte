@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { untrack } from 'svelte';
+	import { page } from '$app/state';
+
 	import {
 		Background,
 		Panel,
@@ -28,7 +30,6 @@
 	import { Badge } from '@/components/ui/badge';
 	import LinkIcon from '@/icons/LinkIcon.svelte';
 	import { store } from '@/store';
-	import { page } from '$app/state';
 
 	const { resolveCollisions } = useCollisionLayout({ margin: 10 });
 
@@ -344,6 +345,7 @@
 								})
 							)
 						];
+						fitView();
 					}}
 				>
 					<ReloadIcon />
