@@ -166,8 +166,6 @@ async function generateBenchImages() {
 			const getColor = (algorithm: string, index: number) =>
 				colorMap[algorithm] || defaultColors[index % defaultColors.length];
 
-			const titleText = datasetType.charAt(0).toUpperCase() + datasetType.slice(1);
-
 			// Custom plugin for floating legend
 			const floatingLegend = {
 				id: 'floatingLegend',
@@ -183,10 +181,17 @@ async function generateBenchImages() {
 					const boxHeight = 4;
 
 					ctx.save();
+					
+					// Draw dataset label as first line
+					ctx.fillStyle = '#666';
+					ctx.font = 'bold 24px sans-serif';
+					ctx.textBaseline = 'middle';
+					ctx.fillText(`dataset: ${datasetType}`, legendX, legendY);
+					
 					datasets.forEach((dataset, i) => {
 						// eslint-disable-next-line @typescript-eslint/no-explicit-any
 						const ds = dataset as any;
-						const y = legendY + i * lineHeight;
+						const y = legendY + (i + 1) * lineHeight;
 
 						// Draw line (with dash if applicable)
 						ctx.beginPath();
@@ -240,13 +245,7 @@ async function generateBenchImages() {
 					},
 					plugins: {
 						title: {
-							display: true,
-							text: titleText,
-							font: {
-								size: 36,
-								weight: 'bold'
-							},
-							color: '#666'
+							display: false
 						},
 						legend: {
 							display: false
